@@ -33,7 +33,7 @@ $router->group(['prefix' => 'dashboard', 'middleware' => 'user'], function () us
     $router->get('user', 'DashboardController@getUserDashboard');
 });
 
-$router->group(['prefix' => 'badge'], function () use ($router) {
+$router->group(['prefix' => 'badge','middleware' => 'admin'], function () use ($router) {
     $router->post('create', 'BadgeController@create');
     $router->put('edit/{id}', 'BadgeController@edit');
     $router->delete('delete/{id}', 'BadgeController@delete');
@@ -41,7 +41,7 @@ $router->group(['prefix' => 'badge'], function () use ($router) {
 });
 
 
-$router->group(['prefix' => 'exam'], function () use ($router) {
+$router->group(['prefix' => 'exam','middleware' => 'admin'], function () use ($router) {
     $router->post('create', 'ExamController@create');
     $router->put('edit/{id}', 'ExamController@edit');
     $router->delete('delete/{id}', 'ExamController@delete');
@@ -71,4 +71,13 @@ $router->group(['prefix' => 'subject', 'middleware' => 'admin'], function () use
     $router->get('view/{id}', 'SubjectController@view');
     $router->put('edit/{id}', 'SubjectController@edit');
     $router->delete('delete/{id}', 'SubjectController@delete');
+});
+
+
+$router->group(['prefix' => 'admin/user','middleware' => 'admin'], function () use ($router) {
+    $router->post('create', 'UserController@Create');
+    $router->get('get', 'UserController@getAllUser');
+    $router->get('view/{id}', 'UserController@getUser');
+    $router->put('edit/{id}', 'UserController@edit');
+    $router->delete('delete/{id}', 'UserController@delete');
 });

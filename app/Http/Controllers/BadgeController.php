@@ -34,14 +34,14 @@ class BadgeController extends Controller
 
         try {
 
-            $user = new Badge;
-            $user->name = $request->input('name');
-            $user->description = $request->input('description');
-            $user->image_id = $request->input('image_id');
-            $user->save();
+            $badge = new Badge;
+            $badge->name = $request->input('name');
+            $badge->description = $request->input('description');
+            $badge->image_id = $request->input('image_id');
+            $badge->save();
 
             //return successful response
-            return response()->json(['Badge' => $user, 'message' => 'CREATED'], 201);
+            return response()->json(['Badge' => $badge, 'message' => 'CREATED'], 201);
 
         } catch (\Exception $e) {
             //return error message
