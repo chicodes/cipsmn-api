@@ -52,6 +52,7 @@ class AuthController extends Controller
             $user->address = $request->input('address');
             $user->account_type = $request->input('account_type');
             $user->user_type = $request->input('user_type');
+            $user->paid_for_regular = "0";
             $plainPassword = $request->input('password');
             $user->password = app('hash')->make($plainPassword);
 

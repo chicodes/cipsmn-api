@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\PaymentMade;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -83,11 +85,23 @@ class PaymentController extends Controller
 
     public function getAllUserPayment(){
         $id = Auth::user()->id;
-        Payment::where('userid', $id)->get();
+        return Payment::where('userid', $id)->get();
+    }
+
+    public function getAllUserPendingPayment(){
+        $id = Auth::user()->id;
+        return PaymentMade::where('userid', $id)
+            ->where('status', '=', 0)
+            ->get();
     }
 
     public function checkPaymentExist($id)
     {
         return Payment::find($id);
+    }
+
+    public function getUserRegularPaymentStatus(){
+        $id = Auth::user()->id;
+        return User::where('id', $id)->pluck('paid_for_regular');
     }
 }

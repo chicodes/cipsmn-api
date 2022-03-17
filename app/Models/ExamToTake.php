@@ -67,6 +67,12 @@ class ExamToTake extends Model
                 'name' => $examToTake->name
             ];
         }
+
+        $regularPayment= Auth::user()->paid_for_regular;
+        // if $regularPayment ==0 that means regular user has not made regular payment so dont show user the dashboard,
+        //but if 1 that means user has made payment user can now proceed to dashboard
+        $paidForRegular = ['paid_for_regular' => $regularPayment];
+        array_push($getExam,$paidForRegular);
         return $getExam;
     }
 }

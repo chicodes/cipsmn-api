@@ -48,6 +48,7 @@ class DashboardController extends Controller
         $id = Auth::user()->id;
         //if user equals regular show regular dashboard
         if(Auth::user()->account_type == 'regular'){
+            //Todo check if regular user has paid regular fee, simply add regular to array,
             return $examToTake::getRegularUserDashboard();
         }
         return $examToTake::getConvertUserDashboard();

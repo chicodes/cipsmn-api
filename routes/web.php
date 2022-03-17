@@ -23,8 +23,13 @@ $router->group(['prefix' => 'user'], function () use ($router) {
     $router->post('register', 'AuthController@register');
     $router->post('login', 'AuthController@login');
     $router->get('/badge/get', 'BadgeController@getUserBadge');
-    $router->get('/certificate/get', 'CertificateController@getUserCertificate');
-    $router->get('/payment/get', 'PaymentController@getUserPayment');
+    $router->post('/certificate/create', 'CertificateController@create');
+    $router->delete('/certificate/delete/{id}', 'CertificateController@delete');
+    $router->get('/certificate/get-certificates', 'CertificateController@getuserCertificates');
+    $router->get('/certificate/{id}', 'CertificateController@getuserSingleCertificate');
+    $router->get('/paid/get', 'PaymentController@getUserPayment');
+    $router->get('/pending-payment/get', 'PaymentController@getAllUserPendingPayment');
+    $router->get('/regular-payment-status/get', 'PaymentController@getUserRegularPaymentStatus');
     $router->get('/payment/create', 'PaymentController@makePayment');
     $router->get('/dashbord/get', 'AuthController@getUserDashboard');
 });
@@ -35,7 +40,7 @@ $router->group(['prefix' => 'dashboard', 'middleware' => 'user'], function () us
 
 $router->group(['prefix' => 'badge','middleware' => 'admin'], function () use ($router) {
     $router->post('create', 'BadgeController@create');
-    $router->put('edit/{id}', 'BadgeController@edit');
+    $router->post('edit/{id}', 'BadgeController@edit');
     $router->delete('delete/{id}', 'BadgeController@delete');
     $router->get('getAll', 'BadgeController@getAllRecords');
 });
@@ -43,7 +48,7 @@ $router->group(['prefix' => 'badge','middleware' => 'admin'], function () use ($
 
 $router->group(['prefix' => 'exam','middleware' => 'admin'], function () use ($router) {
     $router->post('create', 'ExamController@create');
-    $router->put('edit/{id}', 'ExamController@edit');
+    $router->post('edit/{id}', 'ExamController@edit');
     $router->delete('delete/{id}', 'ExamController@delete');
     $router->get('getAll', 'ExamController@getAllRecords');
 });
@@ -80,4 +85,11 @@ $router->group(['prefix' => 'admin/user','middleware' => 'admin'], function () u
     $router->get('view/{id}', 'UserController@getUser');
     $router->put('edit/{id}', 'UserController@edit');
     $router->delete('delete/{id}', 'UserController@delete');
+    $router->post('file-upload', 'UserController@fileUploadTest');
+});
+
+
+$router->group(['prefix' => 'admin/exempt-exam','middleware' => 'admin'], function () use ($router) {
+    $router->post('create', 'ExamExemptController@create');
+    $router->get('get', 'ExamExemptController@get');
 });

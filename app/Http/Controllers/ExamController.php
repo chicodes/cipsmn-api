@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Image;
+use App\Utility\Helper;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -28,15 +30,23 @@ class ExamController extends Controller
         $this->validate($request, [
             'name' => 'required|string',
             'description' => 'required|string',
-            'image_id' => 'required|string',
+            'image' => 'required',
         ]);
 
         try {
 
+            $image = $this->fileUpload($request);
+            $uploadImage = new Image;
+            $uploadImage->type = 'badge';
+            $uploadImage->name = $image['image_name'];
+            $uploadImage->url = $image['image_path'];
+            $uploadImage->save();
+
             $user = new Exam;
             $user->name = $request->input('name');
             $user->description = $request->input('description');
-            $user->image_id = $request->input('image_id');
+            $user->image_id = $uploadImage->id;
+            $user->payment_id = 0;
             $user->save();
 
             //return successful response
@@ -51,14 +61,28 @@ class ExamController extends Controller
 
     public function edit(Request $request, $id)
     {
+        $this->validate($request, [
+            'name' => 'required|string',
+            'description' => 'required|string',
+            'image' => 'required',
+        ]);
+
         try {
             $exam = $this->checkExamExist($id);
             if(!$exam){
                 return response()->json(['Exam' => $exam, 'message' => 'Id does not exist'], 200);
             }
+
+            $image = $this->fileUpload($request);
+            $uploadImage = new Image;
+            $uploadImage->type = 'badge';
+            $uploadImage->name = $image['image_name'];
+            $uploadImage->url = $image['image_path'];
+            $uploadImage->save();
+
             $exam->name = $request->input('name');
             $exam->description = $request->input('description');
-            $exam->image_id = $request->input('image_id');
+            $exam->image_id = $uploadImage->id;
             $exam->save();
             return response()->json(['Exam' => $exam, 'message' => 'UPDATED'], 200);
         } catch (\Exception $e) {
@@ -81,5 +105,16 @@ class ExamController extends Controller
     }
     public function checkExamExist($id){
         return Exam::find($id);
+    }
+
+    private function fileUpload($request)
+    {
+        try {
+            $folderName = "exam";
+            return Helper::fileUpload($request,$folderName);
+        }
+        catch (Exception $e){
+            echo $e;
+        }
     }
 }

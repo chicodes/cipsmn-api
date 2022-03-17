@@ -8,7 +8,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\Badge;
-
+use Carbon\Carbon;
+use Illuminate\Support\Facades\File;
+use App\Utility\Helper;
+use Exception;
 
 
 class USerController extends Controller
@@ -49,6 +52,7 @@ class USerController extends Controller
             $user->address = $request->input('address');
             $user->account_type = $request->input('account_type');
             $user->user_type = $request->input('user_type');
+            $user->paid_for_regular ="0";
             $plainPassword = $request->input('password');
             $user->password = app('hash')->make($plainPassword);
 
@@ -117,5 +121,16 @@ class USerController extends Controller
     {
         $userid = Auth::user()->id;
         return BadgeUploaded::where('userid', $userid)->get();
+    }
+
+    public function fileUploadTest(Request $request)
+    {
+        try {
+            $folderName = "badge";
+           return Helper::fileUpload($request,$folderName);
+        }
+        catch (Exception $e){
+            echo $e;
+        }
     }
 }

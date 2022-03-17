@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string("account_type");
             $table->string("user_type");
             $table->string("password");
+            $table->string("paid_for_regular");
             $table->timestamps();
         });
     }

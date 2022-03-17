@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 use App\Models\BadgeUploaded;
+use App\Utility\Helper;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\Badge;
+use App\Models\Image;
 
 
 
@@ -25,19 +27,24 @@ class BadgeController extends Controller
 
     public function create(Request $request)
     {
-        //validate incoming request
         $this->validate($request, [
             'name' => 'required|string',
-            'description' => 'required|string',
-            'image_id' => 'required|string',
+            'description' => 'required|string'
         ]);
 
         try {
+            $image = $this->fileUpload($request);
+            $uploadImage = new Image;
+            $uploadImage->type = 'badge';
+            $uploadImage->name = $image['image_name'];
+            $uploadImage->url = $image['image_path'];
+            $uploadImage->save();
+
 
             $badge = new Badge;
             $badge->name = $request->input('name');
             $badge->description = $request->input('description');
-            $badge->image_id = $request->input('image_id');
+            $badge->image_id = $uploadImage->id;
             $badge->save();
 
             //return successful response
@@ -52,14 +59,27 @@ class BadgeController extends Controller
 
     public function edit(Request $request, $id)
     {
+        $this->validate($request, [
+            'name' => 'required|string',
+            'description' => 'required|string'
+        ]);
+
         try {
+            $image = $this->fileUpload($request);
             $badge = $this->checkBadgeExist($id);
             if (!$badge) {
-                return response()->json(['Badge' => $badge, 'message' => 'Id does not exist'], 200);
+                return response()->json(['Badge' => $badge, 'message' => 'Badge does not exist'], 200);
             }
+
+            $uploadImage = new Image;
+            $uploadImage->type = 'badge';
+            $uploadImage->name = $image['image_name'];
+            $uploadImage->url = $image['image_path'];
+            $uploadImage->save();
+
             $badge->name = $request->input('name');
             $badge->description = $request->input('description');
-            $badge->image_id = $request->input('image_id');
+            $badge->image_id = $uploadImage->id;
             $badge->save();
             return response()->json(['Badge' => $badge, 'message' => 'UPDATED'], 200);
         } catch (\Exception $e) {
@@ -87,6 +107,11 @@ class BadgeController extends Controller
         return Badge::find($id);
     }
 
+    public function checkImageExist($id)
+    {
+        return Image::find($id);
+    }
+
     public function getUserBadge()
     {
         $userid = Auth::user()->id;
@@ -98,5 +123,16 @@ class BadgeController extends Controller
     {
         $userid = Auth::user()->id;
         return BadgeUploaded::where('userid', $userid)->get();
+    }
+
+    private function fileUpload($request)
+    {
+        try {
+            $folderName = "badge";
+            return Helper::fileUpload($request,$folderName);
+        }
+        catch (Exception $e){
+            echo $e;
+        }
     }
 }
