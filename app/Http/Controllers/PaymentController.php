@@ -78,7 +78,7 @@ class PaymentController extends Controller
         return response()->json(['message' => 'DELETE SUCCESSFUL'], 200);
     }
 
-    public function getAllRecords()
+    public static function getAllRecords()
     {
         return Payment::all();
     }

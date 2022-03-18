@@ -56,23 +56,19 @@ class ExamToTake extends Model
     }
 
     public static function getRegularUserDashboard(){
-        $getAllExamToTake = ExamToTake::select()
-            ->leftJoin("exam", "exam.id", "=", "exam_to_take.exam_id")
-            ->get();
 
-        $getExam = [];
-        foreach($getAllExamToTake as $examToTake){
-            $getExam[] = [
-                'id' => $examToTake->id,
-                'name' => $examToTake->name
-            ];
-        }
+        //this is a regular user so show all exams
+        $getAllExamToTake = Exam::all();
+
+        $getExam = $getAllExamToTake;
 
         $regularPayment= Auth::user()->paid_for_regular;
         // if $regularPayment ==0 that means regular user has not made regular payment so dont show user the dashboard,
         //but if 1 that means user has made payment user can now proceed to dashboard
-        $paidForRegular = ['paid_for_regular' => $regularPayment];
-        array_push($getExam,$paidForRegular);
-        return $getExam;
+        $regularDashboard = [
+                                'exam' => $getExam,
+                                'paid_for_regular' => $regularPayment
+                            ];
+        return $regularDashboard;
     }
 }

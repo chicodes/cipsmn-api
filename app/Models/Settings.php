@@ -12,9 +12,9 @@ use Laravel\Lumen\Auth\Authorizable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 //use Illuminate\Foundation\Auth\User as Authenticatable;
+use Auth;
 
-
-class Exam extends Model
+class Settings extends Model
 {
 
     /**
@@ -23,10 +23,10 @@ class Exam extends Model
      * @var array
      */
 
-    public $table = 'exam';
+    public $table = 'settings';
 
     protected $fillable = [
-        'name', 'description', 'image_id'
+        'name', 'status'
     ];
 
     /**
@@ -38,13 +38,11 @@ class Exam extends Model
         '',
     ];
 
-    public function getUserDashboard($id){
+    public static function create(){
 
-        Exam::find($id);
     }
 
-    public static function getTotalExam(): int
-    {
-        return Badge::all()->count();
+    public static function enableDisable(){
+
     }
 }

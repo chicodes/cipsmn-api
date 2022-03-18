@@ -31,6 +31,7 @@ class ExamController extends Controller
             'name' => 'required|string',
             'description' => 'required|string',
             'image' => 'required',
+            'amount' => 'required'
         ]);
 
         try {
@@ -42,15 +43,16 @@ class ExamController extends Controller
             $uploadImage->url = $image['image_path'];
             $uploadImage->save();
 
-            $user = new Exam;
-            $user->name = $request->input('name');
-            $user->description = $request->input('description');
-            $user->image_id = $uploadImage->id;
-            $user->payment_id = 0;
-            $user->save();
+            $exam = new Exam;
+            $exam->name = $request->input('name');
+            $exam->description = $request->input('description');
+            $exam->image_id = $uploadImage->id;
+            $exam->payment_id = 0;
+            $exam->amount = $request->input('amount');
+            $exam->save();
 
             //return successful response
-            return response()->json(['Exam' => $user, 'message' => 'CREATED'], 201);
+            return response()->json(['Exam' => $exam, 'message' => 'CREATED'], 201);
 
         } catch (\Exception $e) {
             //return error message
@@ -65,6 +67,7 @@ class ExamController extends Controller
             'name' => 'required|string',
             'description' => 'required|string',
             'image' => 'required',
+            'amount' => 'required'
         ]);
 
         try {
@@ -83,6 +86,7 @@ class ExamController extends Controller
             $exam->name = $request->input('name');
             $exam->description = $request->input('description');
             $exam->image_id = $uploadImage->id;
+            $exam->amount = $request->input('amount');
             $exam->save();
             return response()->json(['Exam' => $exam, 'message' => 'UPDATED'], 200);
         } catch (\Exception $e) {

@@ -29,18 +29,6 @@ class DashboardController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
 
-//    public function __construct()
-//    {
-//        $this->middleware('admin');
-//    }
-
-//    public function __construct(){
-//        $this->middleware(function ($request, $next) {
-//            $this->user_info=Auth::user(); // returns user
-//            return $next($request);
-//        });
-//    }
-
     public function getUserDashboard()
     {
         $examToTake = new ExamToTake;
@@ -52,7 +40,6 @@ class DashboardController extends Controller
             return $examToTake::getRegularUserDashboard();
         }
         return $examToTake::getConvertUserDashboard();
-
     }
 
     public function getAdminDashboard()
@@ -69,13 +56,17 @@ class DashboardController extends Controller
         //get total badge
         $getTotalBage = Badge::getTotalBadge();
 
-        $getRecentUSers = User::getRecentUSers();
+        $getRecentUsers = User::getRecentUsers();
+
+        $getRecentPayments = Payment::getRecentPayment();
 
         $dashBoardResult = [
             'total_users' => $getTotalUsers,
             'total_payment' => $getTotalPayment,
             'total_exam' => $getTotalExam,
-            'recent_users' => $getRecentUSers
+            'total_badge' => $getTotalBage,
+            'recent_users' => $getRecentUsers,
+            'recent_payments' => $getRecentPayments
         ];
 
         return $dashBoardResult;

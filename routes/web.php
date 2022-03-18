@@ -27,7 +27,7 @@ $router->group(['prefix' => 'user'], function () use ($router) {
     $router->delete('/certificate/delete/{id}', 'CertificateController@delete');
     $router->get('/certificate/get-certificates', 'CertificateController@getuserCertificates');
     $router->get('/certificate/{id}', 'CertificateController@getuserSingleCertificate');
-    $router->get('/paid/get', 'PaymentController@getUserPayment');
+    $router->get('/paid/get', 'PaymentController@getAllUserPayment');
     $router->get('/pending-payment/get', 'PaymentController@getAllUserPendingPayment');
     $router->get('/regular-payment-status/get', 'PaymentController@getUserRegularPaymentStatus');
     $router->get('/payment/create', 'PaymentController@makePayment');
@@ -36,6 +36,10 @@ $router->group(['prefix' => 'user'], function () use ($router) {
 
 $router->group(['prefix' => 'dashboard', 'middleware' => 'user'], function () use ($router) {
     $router->get('user', 'DashboardController@getUserDashboard');
+});
+
+$router->group(['prefix' => 'dashboard', 'middleware' => 'admin'], function () use ($router) {
+    $router->get('admin', 'DashboardController@getAdminDashboard');
 });
 
 $router->group(['prefix' => 'badge','middleware' => 'admin'], function () use ($router) {
@@ -92,4 +96,11 @@ $router->group(['prefix' => 'admin/user','middleware' => 'admin'], function () u
 $router->group(['prefix' => 'admin/exempt-exam','middleware' => 'admin'], function () use ($router) {
     $router->post('create', 'ExamExemptController@create');
     $router->get('get', 'ExamExemptController@get');
+});
+
+$router->group(['prefix' => 'admin/settings','middleware' => 'admin'], function () use ($router) {
+    $router->post('create', 'SettingsController@create');
+    $router->get('get', 'SettingsController@get');
+    $router->put('edit/{id}', 'SettingsController@edit');
+    $router->put('enable-disbale/{id}', 'SettingsController@enableDisable');
 });

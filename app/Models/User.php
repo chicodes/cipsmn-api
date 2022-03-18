@@ -62,11 +62,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return User::all()->count();
     }
 
-    public static function getRecentUSers(){
+    public static function getRecentUsers(){
         return User::select("*")
             ->orderBy('created_at', 'desc')
             ->limit(10)
             ->get();
-
     }
 }

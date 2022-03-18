@@ -42,4 +42,11 @@ class Payment extends Model
     {
         return Payment::all()->count();
     }
+
+    public static function getRecentPayment(){
+        return Payment::select("*")
+            ->orderBy('created_at', 'desc')
+            ->limit(10)
+            ->get();
+    }
 }

@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Image;
+use App\Utility\Helper;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -44,6 +46,14 @@ class AuthController extends Controller
 
         try {
 
+
+            $image = $this->fileUpload($request);
+            $uploadImage = new Image;
+            $uploadImage->type = 'user';
+            $uploadImage->name = $image['image_name'];
+            $uploadImage->url = $image['image_path'];
+            $uploadImage->save();
+
             $user = new User;
             $user->firstname = $request->input('firstname');
             $user->lastname = $request->input('lastname');
@@ -53,6 +63,7 @@ class AuthController extends Controller
             $user->account_type = $request->input('account_type');
             $user->user_type = $request->input('user_type');
             $user->paid_for_regular = "0";
+            $user->image_id = $uploadImage->id;
             $plainPassword = $request->input('password');
             $user->password = app('hash')->make($plainPassword);
 
@@ -126,5 +137,16 @@ class AuthController extends Controller
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
         ]);
+    }
+
+    private function fileUpload($request)
+    {
+        try {
+            $folderName = "user";
+            return Helper::fileUpload($request,$folderName);
+        }
+        catch (Exception $e){
+            echo $e;
+        }
     }
 }

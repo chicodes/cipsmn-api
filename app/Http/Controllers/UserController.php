@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\BadgeUploaded;
+use App\Models\Image;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
@@ -14,7 +15,7 @@ use App\Utility\Helper;
 use Exception;
 
 
-class USerController extends Controller
+class UserController extends Controller
 {
     /**
      * Create a new AuthController instance.
@@ -44,6 +45,13 @@ class USerController extends Controller
 
         try {
 
+            $image = $this->fileUpload($request);
+            $uploadImage = new Image;
+            $uploadImage->type = 'badge';
+            $uploadImage->name = $image['image_name'];
+            $uploadImage->url = $image['image_path'];
+            $uploadImage->save();
+
             $user = new User;
             $user->firstname = $request->input('firstname');
             $user->lastname = $request->input('lastname');
@@ -53,6 +61,7 @@ class USerController extends Controller
             $user->account_type = $request->input('account_type');
             $user->user_type = $request->input('user_type');
             $user->paid_for_regular ="0";
+            $user->image_id = $uploadImage->id;
             $plainPassword = $request->input('password');
             $user->password = app('hash')->make($plainPassword);
 
@@ -128,6 +137,17 @@ class USerController extends Controller
         try {
             $folderName = "badge";
            return Helper::fileUpload($request,$folderName);
+        }
+        catch (Exception $e){
+            echo $e;
+        }
+    }
+
+    private function fileUpload($request)
+    {
+        try {
+            $folderName = "exam";
+            return Helper::fileUpload($request,$folderName);
         }
         catch (Exception $e){
             echo $e;
