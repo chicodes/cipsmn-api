@@ -77,7 +77,6 @@ class ExamToTake extends Model
                                 'exam' => $getExam,
                                 'paid_for_regular' => $regularPayment,
                                 'payment' => $getAllPayment,
-                                'name' => Auth::user()->firstname." ".Auth::user()->lastname
                             ];
         return $regularDashboard;
     }
