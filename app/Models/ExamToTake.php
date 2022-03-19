@@ -53,6 +53,7 @@ class ExamToTake extends Model
             ];
         }
         $convertDashboard = [
+            'name' => Auth::user()->firstname." ".Auth::user()->lastname,
             'exam' => $getExam,
             'payment' => $getAllPayment
         ];
@@ -72,9 +73,11 @@ class ExamToTake extends Model
         // if $regularPayment ==0 that means regular user has not made regular payment so dont show user the dashboard,
         //but if 1 that means user has made payment user can now proceed to dashboard
         $regularDashboard = [
+                                'name' => Auth::user()->firstname." ".Auth::user()->lastname,
                                 'exam' => $getExam,
                                 'paid_for_regular' => $regularPayment,
-                                'payment' => $getAllPayment
+                                'payment' => $getAllPayment,
+                                'name' => Auth::user()->firstname." ".Auth::user()->lastname
                             ];
         return $regularDashboard;
     }
