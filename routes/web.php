@@ -31,10 +31,10 @@ $router->group(['prefix' => 'user'], function () use ($router) {
     $router->get('/pending-payment/get', 'PaymentController@getAllUserPendingPayment');
     $router->get('/regular-payment-status/get', 'PaymentController@getUserRegularPaymentStatus');
     $router->get('/payment/create', 'PaymentController@makePayment');
-    $router->get('/dashbord/get', 'AuthController@getUserDashboard');
+    $router->get('/dashboard', 'DashboardController@getUserDashboard');
 });
 
-$router->group(['prefix' => 'dashboard', 'middleware' => 'user'], function () use ($router) {
+$router->group(['prefix' => 'dashboard'], function () use ($router) {
     $router->get('user', 'DashboardController@getUserDashboard');
 });
 

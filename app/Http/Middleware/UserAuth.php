@@ -45,7 +45,7 @@ class UserAuth
     {
 
         if($request->user()->user_type != '2'){
-            return response()->json(['status' => false, 'message' => 'Permission denied Now'], 401);
+            return response()->json(['status' => false, 'message' => 'Permission denied'], 401);
         }
         return $next($request);
     }

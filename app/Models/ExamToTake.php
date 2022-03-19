@@ -48,8 +48,7 @@ class ExamToTake extends Model
         $getExam = [];
         foreach($getAllExamToTake as $examToTake){
             $getExam[] = [
-                'id' => $examToTake->id,
-                'name' => $examToTake->name
+                $examToTake
             ];
         }
         return $getExam;
