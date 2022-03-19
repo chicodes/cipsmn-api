@@ -46,18 +46,25 @@ class ExamToTake extends Model
             ->get();
 
         $getExam = [];
+        $getAllPayment = Payment::all();
         foreach($getAllExamToTake as $examToTake){
             $getExam[] = [
                 $examToTake
             ];
         }
-        return $getExam;
+        $convertDashboard = [
+            'exam' => $getExam,
+            'payment' => $getAllPayment
+        ];
+        return $convertDashboard;
     }
 
     public static function getRegularUserDashboard(){
 
         //this is a regular user so show all exams
         $getAllExamToTake = Exam::all();
+
+        $getAllPayment = Payment::all();
 
         $getExam = $getAllExamToTake;
 
@@ -66,7 +73,8 @@ class ExamToTake extends Model
         //but if 1 that means user has made payment user can now proceed to dashboard
         $regularDashboard = [
                                 'exam' => $getExam,
-                                'paid_for_regular' => $regularPayment
+                                'paid_for_regular' => $regularPayment,
+                                'payment' => $getAllPayment
                             ];
         return $regularDashboard;
     }

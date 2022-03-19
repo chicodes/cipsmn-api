@@ -34,9 +34,9 @@ $router->group(['prefix' => 'user'], function () use ($router) {
     $router->get('/dashboard', 'DashboardController@getUserDashboard');
 });
 
-$router->group(['prefix' => 'dashboard'], function () use ($router) {
-    $router->get('user', 'DashboardController@getUserDashboard');
-});
+//$router->group(['prefix' => 'dashboard'], function () use ($router) {
+//    $router->get('user', 'DashboardController@getUserDashboard');
+//});
 
 $router->group(['prefix' => 'dashboard', 'middleware' => 'admin'], function () use ($router) {
     $router->get('admin', 'DashboardController@getAdminDashboard');
