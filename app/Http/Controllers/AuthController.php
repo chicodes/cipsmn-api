@@ -46,13 +46,17 @@ class AuthController extends Controller
 
         try {
 
-
-            $image = $this->fileUpload($request);
             $uploadImage = new Image;
-            $uploadImage->type = 'user';
-            $uploadImage->name = $image['image_name'];
-            $uploadImage->url = $image['image_path'];
-            $uploadImage->save();
+            if($request->file('image')) {
+                $image = $this->fileUpload($request);
+                $uploadImage->type = 'user';
+                $uploadImage->name = $image['image_name'];
+                $uploadImage->url = $image['image_path'];
+                $uploadImage->save();
+            }
+            else {
+                $uploadImage->id = null;
+            }
 
             $user = new User;
             $user->firstname = $request->input('firstname');
