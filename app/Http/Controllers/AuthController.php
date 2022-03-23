@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use App\Models\user;
+use App\Models\User;
 
 use \Laravel\Lumen\Routing\UrlGenerator;
 //use Illuminate\Support\str;
