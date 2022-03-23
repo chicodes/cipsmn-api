@@ -14,7 +14,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 //use Illuminate\Foundation\Auth\User as Authenticatable;
 use Auth;
 
-class ExamToTake extends Model
+class Dashboard extends Model
 {
 
     /**
@@ -22,8 +22,6 @@ class ExamToTake extends Model
      *
      * @var array
      */
-
-    public $table = 'exam_to_take';
 
     protected $fillable = [
         'name', 'description', 'image_id'
@@ -40,7 +38,6 @@ class ExamToTake extends Model
 
     public static function getConvertUserDashboard(){
         $id = Auth::user()->id;
-//        $getAllExamToTake = ExamToTake::select()
             $getAllExamToTake = ExamExempt::select()
             ->leftJoin("exam", "exam.id", "!=", "exam_exempt.exam_id")
             ->where("exam_exempt.userid", "=", $id)

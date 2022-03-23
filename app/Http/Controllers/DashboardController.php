@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 //use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Badge;
+use App\Models\Dashboard;
 use App\Models\Exam;
 use App\Models\Payment;
 use Illuminate\Http\Request;
@@ -31,16 +32,16 @@ class DashboardController extends Controller
 
     public function getUserDashboard()
     {
-        $examToTake = new ExamToTake;
+        $dashboard = new Dashboard();
 
         $id = Auth::user()->id;
         //if user equals regular show regular dashboard
         //1  == regular, 2 == convert
         if(Auth::user()->account_type == '1'){
             //Todo check if regular user has paid regular fee, simply add regular to array,
-            return $examToTake::getRegularUserDashboard();
+            return $dashboard::getRegularUserDashboard();
         }
-        return $examToTake::getConvertUserDashboard();
+        return $dashboard::getConvertUserDashboard();
     }
 
     public function getAdminDashboard()
