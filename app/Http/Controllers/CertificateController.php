@@ -29,16 +29,18 @@ class CertificateController extends Controller
     {
         //validate incoming request
         $this->validate($request, [
-            'image' => 'required',
+            'file' => 'required',
         ]);
 
         try {
+
+            $uploadedFileUrl = cloudinary()->uploadFile($request->file('file')->getRealPath())->getSecurePath();
 
             $image = $this->fileUpload($request);
             $uploadImage = new Image;
             $uploadImage->type = 'certificate';
             $uploadImage->name = $image['image_name'];
-            $uploadImage->url = $image['image_path'];
+            $uploadImage->url = $uploadedFileUrl;
             $uploadImage->save();
 
             $certificate = new Certificate;
