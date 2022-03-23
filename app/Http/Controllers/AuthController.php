@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\user;
 
+use \Laravel\Lumen\Routing\UrlGenerator;
+//use Illuminate\Support\str;
+
 
 
 class AuthController extends Controller
@@ -46,13 +49,18 @@ class AuthController extends Controller
 
         try {
 
+            $uploadedFileUrl = cloudinary()->uploadFile($request->file('file')->getRealPath())->getSecurePath();
+            //dd($uploadedFileUrl);
+
             $uploadImage = new Image;
-            if($request->file('image')) {
+            if($request->file('file')) {
                 $image = $this->fileUpload($request);
                 $uploadImage->type = 'user';
                 $uploadImage->name = $image['image_name'];
-                $uploadImage->url = $image['image_path'];
+                $uploadImage->url = $uploadedFileUrl;
                 $uploadImage->save();
+
+
             }
             else {
                 $uploadImage->id = null;
@@ -153,5 +161,20 @@ class AuthController extends Controller
         catch (Exception $e){
             echo $e;
         }
+    }
+
+    public function getImage(){
+
+        $path = 'uploads/badge/622cab278bca9_passport.png/';
+        //dd(Helper::doAsset("public/uploads/badge/622cab278bca9_passport.jpg"));
+        //var_dump(asset('uploads/badge/622cab278bca9_passport.png/'));
+        $urlGenerator = new UrlGenerator(app());
+        var_dump($urlGenerator->asset('public/uploads/badge/622cab278bca9_passport.jpg/'));
+
+//        new Laravel\Lumen\Routing\UrlGenerator(app()))
+//            ->to($path, $parameters, $secure);
+
+//
+//        str_slug('Laravel 5 Framework', '-');
     }
 }

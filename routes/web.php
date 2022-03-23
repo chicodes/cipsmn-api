@@ -36,6 +36,8 @@ $router->group(['prefix' => 'user'], function () use ($router) {
 
 $router->post('logout', 'AuthController@logout');
 
+$router->get('get-image', 'AuthController@getImage');
+
 //$router->group(['prefix' => 'dashboard'], function () use ($router) {
 //    $router->get('user', 'DashboardController@getUserDashboard');
 //});

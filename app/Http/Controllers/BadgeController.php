@@ -33,12 +33,16 @@ class BadgeController extends Controller
         ]);
 
         try {
+
+            $uploadedFileUrl = cloudinary()->uploadFile($request->file('file')->getRealPath())->getSecurePath();
+
             $image = $this->fileUpload($request);
             $uploadImage = new Image;
             $uploadImage->type = 'badge';
             $uploadImage->name = $image['image_name'];
-            $uploadImage->url = $image['image_path'];
+            $uploadImage->url = $uploadedFileUrl;
             $uploadImage->save();
+
 
 
             $badge = new Badge;
@@ -71,10 +75,12 @@ class BadgeController extends Controller
                 return response()->json(['Badge' => $badge, 'message' => 'Badge does not exist'], 200);
             }
 
+            $uploadedFileUrl = cloudinary()->uploadFile($request->file('file')->getRealPath())->getSecurePath();
+
             $uploadImage = new Image;
             $uploadImage->type = 'badge';
             $uploadImage->name = $image['image_name'];
-            $uploadImage->url = $image['image_path'];
+            $uploadImage->url = $uploadedFileUrl;
             $uploadImage->save();
 
             $badge->name = $request->input('name');

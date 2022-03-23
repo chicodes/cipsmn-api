@@ -25,6 +25,10 @@ $app = new Laravel\Lumen\Application(
 
 $app->withFacades();
 
+$app->alias('Cloudinary', CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary::class);
+
+$app->alias('blade.compiler', Illuminate\View\Compilers\BladeCompiler::class);
+
 $app->withEloquent();
 
 /*
@@ -103,6 +107,8 @@ $app->middleware([
 // $app->register(App\Providers\EventServiceProvider::class);
 
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
+
+//$app->register(CloudinaryLabs\CloudinaryLaravel\CloudinaryServiceProvider::class);
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes

@@ -30,24 +30,23 @@ class ExamController extends Controller
         $this->validate($request, [
             'name' => 'required|string',
             'description' => 'required|string',
-            'image' => 'required',
+            'file' => 'required',
             'amount' => 'required'
         ]);
 
         try {
-
+            $uploadedFileUrl = cloudinary()->uploadFile($request->file('file')->getRealPath())->getSecurePath();
             $image = $this->fileUpload($request);
             $uploadImage = new Image;
-            $uploadImage->type = 'badge';
+            $uploadImage->type = 'exam';
             $uploadImage->name = $image['image_name'];
-            $uploadImage->url = $image['image_path'];
+            $uploadImage->url = $uploadedFileUrl;
             $uploadImage->save();
 
             $exam = new Exam;
             $exam->name = $request->input('name');
             $exam->description = $request->input('description');
             $exam->image_id = $uploadImage->id;
-            $exam->payment_id = 0;
             $exam->amount = $request->input('amount');
             $exam->save();
 
@@ -76,11 +75,13 @@ class ExamController extends Controller
                 return response()->json(['Exam' => $exam, 'message' => 'Id does not exist'], 200);
             }
 
+            $uploadedFileUrl = cloudinary()->uploadFile($request->file('file')->getRealPath())->getSecurePath();
+
             $image = $this->fileUpload($request);
             $uploadImage = new Image;
-            $uploadImage->type = 'badge';
+            $uploadImage->type = 'exam';
             $uploadImage->name = $image['image_name'];
-            $uploadImage->url = $image['image_path'];
+            $uploadImage->url = $uploadedFileUrl;
             $uploadImage->save();
 
             $exam->name = $request->input('name');
