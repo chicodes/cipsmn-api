@@ -29,13 +29,13 @@ class ExamExemptController extends Controller
     {
         //validate incoming request
         $this->validate($request, [
+            'userid' => 'required|string',
             'exam_id' => 'required|string'
         ]);
 
         try {
-            $id = Auth::user()->id;
             $examExempt = new ExamExempt;
-            $examExempt->userid = $id;
+            $examExempt->userid = $request->input('userid');
             $examExempt->exam_id = $request->input('exam_id');
             $examExempt->save();
 
@@ -46,8 +46,8 @@ class ExamExemptController extends Controller
         }
     }
 
-    public function get(){
-            return ExamExempt::get();
+    public function get($id){
+        return ExamExempt::get($id);
     }
 }
 

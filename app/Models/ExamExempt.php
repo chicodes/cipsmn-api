@@ -40,8 +40,7 @@ class ExamExempt extends Model
         '',
     ];
 
-    public static function get(){
-        $id = Auth::user()->id;
+    public static function get($id){
         $getAllExamExempted =  ExamExempt::where('userid', $id)
 
                                 ->pluck('exam_id');

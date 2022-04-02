@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\Badge;
+use App\Models\Image;
 
 
 
@@ -88,11 +89,25 @@ class BadgeUploadedController extends Controller
         return BadgeUploaded::find($id);
     }
 
-    public function getUserBadge(){
-        //Badge::where('userid','like','%John%') -> first();
-        BadgeUploaded::where('userid', 1)
-//            ->orderBy('name')
-//            ->take(10)
-            ->get();
+    public function getUserBadge()
+    {
+        $userid = Auth::user()->id;
+        //$userid = '1';
+        $getBadges =  BadgeUploaded::where('userid', $userid)->get();
+        //dd($getBadges);
+        $myBadges = [];
+        foreach ($getBadges as $getBadge){
+
+            $badge = Badge::where('id', $getBadge->badge_id)->first();
+            //dd($getBadge->badge_id);
+            $image = Image::where('id', $badge->image_id)->pluck('url');
+
+            $myBadges = [
+                            'image_url' => $image,
+
+                        ];
+        }
+
+        return $myBadges;
     }
 }

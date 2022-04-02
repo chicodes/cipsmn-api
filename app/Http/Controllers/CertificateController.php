@@ -75,7 +75,7 @@ class CertificateController extends Controller
     public function getuserCertificates()
     {
         $id = Auth::user()->id;
-        $getCertificates =  Certificate::where('userid', $id)->get();
+        $getCertificates =  Certificate::where('userid', $id)->paginate(20);
         $userCertificate = [];
         foreach($getCertificates as $getCertificate){
 

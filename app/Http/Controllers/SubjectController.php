@@ -28,8 +28,7 @@ class SubjectController extends Controller
         $this->validate($request, [
             'name' => 'required|string',
             'exam_id' => 'required|string',
-            'description' => 'required|string',
-            'amount' => 'required|string',
+            'description' => 'required|string'
         ]);
 
         try {
@@ -38,7 +37,6 @@ class SubjectController extends Controller
             $subject->name = $request->input('name');
             $subject->exam_id = $request->input('exam_id');
             $subject->description = $request->input('description');
-            $subject->amount = $request->input('amount');
             $subject->save();
 
             //return successful response
@@ -61,7 +59,6 @@ class SubjectController extends Controller
             $subject->name = $request->input('name');
             $subject->exam_id = $request->input('exam_id');
             $subject->description = $request->input('description');
-            $subject->amount = $request->input('amount');
             $subject->save();
             return response()->json(['Subject' => $subject, 'message' => 'UPDATED'], 200);
         } catch (\Exception $e) {
@@ -81,7 +78,7 @@ class SubjectController extends Controller
 
     public function getAllRecords()
     {
-        return Subject::all();
+        return Subject::paginate(20);
     }
 
     public function checkSubjectExist($id)

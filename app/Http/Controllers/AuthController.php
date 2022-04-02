@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Image;
+use App\Models\Settings;
 use App\Utility\Helper;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
@@ -144,11 +145,16 @@ class AuthController extends Controller
      */
     protected function respondWithToken($token)
     {
+
+        $getDonation = Settings::where('name', 'donation')->first();
+        //if($getDnations->status =='1'){}
+        $donation = $getDonation->status='1' ? 'true':'false';
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60,
-            'user_type' => Auth::user()->id
+            'user_type' => Auth::user()->id,
+            'donations' => $donation
         ]);
     }
 

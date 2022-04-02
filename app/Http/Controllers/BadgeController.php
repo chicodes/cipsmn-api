@@ -105,7 +105,8 @@ class BadgeController extends Controller
 
     public function getAllRecords()
     {
-        return Badge::all();
+        //return Badge::all();
+        return Badge::paginate(20);
     }
 
     public function checkBadgeExist($id)
@@ -116,19 +117,6 @@ class BadgeController extends Controller
     public function checkImageExist($id)
     {
         return Image::find($id);
-    }
-
-    public function getUserBadge()
-    {
-        $userid = Auth::user()->id;
-        BadgeUploaded::where('userid', $userid)->get();
-    }
-
-
-    public function getAllUserPayment()
-    {
-        $userid = Auth::user()->id;
-        return BadgeUploaded::where('userid', $userid)->get();
     }
 
     private function fileUpload($request)

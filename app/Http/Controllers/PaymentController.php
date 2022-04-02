@@ -80,7 +80,7 @@ class PaymentController extends Controller
 
     public static function getAllRecords()
     {
-        return Payment::all();
+        return Payment::paginate(20);
     }
 
     public function getAllUserPayment(){

@@ -65,7 +65,7 @@ class ExamController extends Controller
         $this->validate($request, [
             'name' => 'required|string',
             'description' => 'required|string',
-            'image' => 'required',
+            'file' => 'required',
             'amount' => 'required'
         ]);
 
@@ -106,7 +106,7 @@ class ExamController extends Controller
 
     public function getAllRecords()
     {
-        return Exam::all();
+        return Exam::paginate(20);
     }
     public function checkExamExist($id){
         return Exam::find($id);

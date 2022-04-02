@@ -82,7 +82,7 @@ class UserController extends Controller
         try {
             $user = $this->checkUserExist($id);
             if (!$user) {
-                return response()->json(['Badge' => $user, 'message' => 'Id does not exist'], 200);
+                return response()->json(['User' => $user, 'message' => 'Id does not exist'], 200);
             }
             $user->firstname = $request->input('firstname');
             $user->lastname = $request->input('lastname');
@@ -94,7 +94,7 @@ class UserController extends Controller
             $plainPassword = $request->input('password');
             $user->password = app('hash')->make($plainPassword);
             $user->save();
-            return response()->json(['Badge' => $user, 'message' => 'UPDATED'], 200);
+            return response()->json(['User' => $user, 'message' => 'UPDATED'], 200);
         } catch (\Exception $e) {
             return $e;
         }
@@ -112,7 +112,7 @@ class UserController extends Controller
 
     public function getAllUser()
     {
-        return User::all();
+        return User::paginate(20);
     }
 
     public function checkUserExist($id)
@@ -122,7 +122,15 @@ class UserController extends Controller
 
     public function getUser($id)
     {
-        return User::where('id', $id)->get();
+        return User::where('id', $id)->first();
+    }
+
+    public function getUserByAccountType(Request $request)
+    {
+        $this->validate($request, [
+            'account_type' => 'required|string'
+        ]);
+        return User::where('account_type', $request->account_type)->get();
     }
 
 
