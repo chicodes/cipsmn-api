@@ -39,7 +39,8 @@ class UserController extends Controller
             'address' => 'required|string',
             'account_type' => 'required|string',
             'user_type' => 'required|string',
-            'password' => 'required|string'
+            'password' => 'required|string',
+            'file' => 'required'
             //'password' => 'required|confirmed',
         ]);
 
