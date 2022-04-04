@@ -14,9 +14,9 @@ class UpdateExamTableRemovePurposeAndPaymentStatusFields extends Migration
     public function up()
     {
         Schema::table('exam', function (Blueprint $table) {
-            $table->dropColumn('purpose');
-            $table->dropColumn('payment_status');
-            $table->dropColumn('exam_id');
+//            $table->dropColumn('purpose');
+//            $table->dropColumn('payment_status');
+//            $table->dropColumn('exam_id');
         });
     }
 
