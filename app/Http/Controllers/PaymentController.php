@@ -24,13 +24,15 @@ class PaymentController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
 
-    public function create(Request $request)
+    public function makePayment(Request $request)
     {
         //validate incoming request
         $this->validate($request, [
             'type' => 'required|string',
             'amount' => 'required|string',
             'status' => 'required|string',
+            'userid' => 'required|string',
+            'type' => 'required|string'
         ]);
 
         try {
@@ -39,6 +41,8 @@ class PaymentController extends Controller
             $payment->type = $request->input('type');
             $payment->amount = $request->input('amount');
             $payment->status = $request->input('status');
+            $payment->userid = Auth::user()->id;
+            $payment->purpose = $request->input('purpose');
             $payment->save();
 
             //return successful response
