@@ -89,7 +89,13 @@ class PaymentController extends Controller
 
     public function getAllUserPayment(){
         $id = Auth::user()->id;
-        return Payment::where('userid', $id)->get();
+
+        $getPayment = Payment::where('userid', '22')->get();
+        //dd($getPayment);
+        if ($getPayment->isEmpty()) {
+            return response()->json(['message' => 'User has not made any payment'], 404);
+        }
+        return $getPayment;
     }
 
     public function getAllUserPendingPayment(){

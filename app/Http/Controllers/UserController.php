@@ -134,13 +134,6 @@ class UserController extends Controller
         return User::where('account_type', $request->account_type)->get();
     }
 
-
-    public function getAllUserPayment()
-    {
-        $userid = Auth::user()->id;
-        return BadgeUploaded::where('userid', $userid)->get();
-    }
-
     public function fileUploadTest(Request $request)
     {
         try {
