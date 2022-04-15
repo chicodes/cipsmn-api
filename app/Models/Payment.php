@@ -26,7 +26,7 @@ class Payment extends Model
     public $table = 'payments';
 
     protected $fillable = [
-        'type', 'amount', 'status'
+        'type', 'amount', 'status','useird'
     ];
 
     /**

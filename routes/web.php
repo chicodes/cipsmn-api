@@ -30,7 +30,7 @@ $router->group(['prefix' => 'user'], function () use ($router) {
     $router->get('/paid/get', 'PaymentController@getAllUserPayment');
     $router->get('/pending-payment/get', 'PaymentController@getAllUserPendingPayment');
     $router->get('/regular-payment-status/get', 'PaymentController@getUserRegularPaymentStatus');
-    $router->get('/payment/create', 'PaymentController@makePayment');
+    $router->post('/payment/create', 'PaymentController@makePayment');
     $router->get('/dashboard', 'DashboardController@getUserDashboard');
 });
 

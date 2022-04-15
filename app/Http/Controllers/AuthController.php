@@ -154,7 +154,8 @@ class AuthController extends Controller
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60,
-            'user_type' => Auth::user()->id,
+            'user_type' => Auth::user()->user_type,
+            'account_type' => Auth::user()->account_type,
             'donations' => $donation
         ]);
     }
