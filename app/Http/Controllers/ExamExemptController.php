@@ -47,7 +47,12 @@ class ExamExemptController extends Controller
     }
 
     public function get($id){
-        return ExamExempt::get($id);
+
+        $getExempt = ExamExempt::get($id);
+        if ($getExempt->isEmpty()) {
+            return response()->json(['message' => 'No exemption'], 404);
+        }
+        return $getExempt;
     }
 }
 
