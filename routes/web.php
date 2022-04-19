@@ -80,7 +80,7 @@ $router->group(['prefix' => 'payment','middleware' => 'admin'], function () use 
 
 $router->group(['prefix' => 'subject', 'middleware' => 'admin'], function () use ($router) {
     $router->post('create', 'SubjectController@Create');
-    $router->get('get', 'SubjectController@getAll');
+    $router->get('get-all', 'SubjectController@getAllRecords');
     $router->get('view/{id}', 'SubjectController@view');
     $router->put('edit/{id}', 'SubjectController@edit');
     $router->delete('delete/{id}', 'SubjectController@delete');
