@@ -53,6 +53,7 @@ class BadgeController extends Controller
             $badge->exam_id = $request->input('exam_id');
             $badge->save();
 
+
             //return successful response
             return response()->json(['Badge' => $badge, 'message' => 'CREATED'], 201);
 
