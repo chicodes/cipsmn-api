@@ -88,11 +88,11 @@ class BadgeController extends Controller
             $uploadImage->url = $uploadedFileUrl;
             $uploadImage->save();
 
-//            $badge->name = $request->input('name');
-//            $badge->description = $request->input('description');
-//            $badge->image_id = $uploadImage->id;
-//            $badge->exam_id = $request->input('exam_id');
-//            $badge->save();
+            $badge->name = $request->input('name');
+            $badge->description = $request->input('description');
+            $badge->image_id = $uploadImage->id;
+            $badge->exam_id = $request->input('exam_id');
+            $badge->save();
             return response()->json(['Badge' => $badge, 'message' => 'UPDATED'], 200);
         } catch (\Exception $e) {
             return $e;
