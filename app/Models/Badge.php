@@ -26,7 +26,7 @@ class Badge extends Model
     public $table = 'badge';
 
     protected $fillable = [
-        'name', 'description', 'image_id'
+        'name', 'description', 'image_id', 'exam_id'
     ];
 
     /**
