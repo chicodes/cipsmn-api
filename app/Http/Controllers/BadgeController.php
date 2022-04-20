@@ -29,7 +29,8 @@ class BadgeController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|string',
-            'description' => 'required|string'
+            'description' => 'required|string',
+            'exam_id' => 'required|string'
         ]);
 
         try {
@@ -49,6 +50,7 @@ class BadgeController extends Controller
             $badge->name = $request->input('name');
             $badge->description = $request->input('description');
             $badge->image_id = $uploadImage->id;
+            $badge->exam_id = $request->input('exam_id');
             $badge->save();
 
             //return successful response
@@ -65,11 +67,12 @@ class BadgeController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|string',
-            'description' => 'required|string'
+            'description' => 'required|string',
+            'exam_id' => 'required|string',
         ]);
 
         try {
-            $image = $this->fileUpload($request);
+            //$image = $this->fileUpload($request);
             $badge = $this->checkBadgeExist($id);
             if (!$badge) {
                 return response()->json(['Badge' => $badge, 'message' => 'Badge does not exist'], 200);
@@ -77,16 +80,18 @@ class BadgeController extends Controller
 
             $uploadedFileUrl = cloudinary()->uploadFile($request->file('file')->getRealPath())->getSecurePath();
 
+            $image = $this->fileUpload($request);
             $uploadImage = new Image;
             $uploadImage->type = 'badge';
             $uploadImage->name = $image['image_name'];
             $uploadImage->url = $uploadedFileUrl;
             $uploadImage->save();
 
-            $badge->name = $request->input('name');
-            $badge->description = $request->input('description');
-            $badge->image_id = $uploadImage->id;
-            $badge->save();
+//            $badge->name = $request->input('name');
+//            $badge->description = $request->input('description');
+//            $badge->image_id = $uploadImage->id;
+//            $badge->exam_id = $request->input('exam_id');
+//            $badge->save();
             return response()->json(['Badge' => $badge, 'message' => 'UPDATED'], 200);
         } catch (\Exception $e) {
             return $e;
