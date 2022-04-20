@@ -51,6 +51,7 @@ $router->group(['prefix' => 'badge','middleware' => 'admin'], function () use ($
     $router->post('edit/{id}', 'BadgeController@edit');
     $router->delete('delete/{id}', 'BadgeController@delete');
     $router->get('get-all', 'BadgeController@getAllRecords');
+    $router->get('view/{id}', 'BadgeController@view');
 });
 
 

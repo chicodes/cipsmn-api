@@ -109,6 +109,34 @@ class BadgeController extends Controller
         return response()->json(['message' => 'DELETE SUCCESSFUL'], 200);
     }
 
+    public function view($id)
+    {
+        $checkBadgeExist = $this->checkBadgeExist($id);
+        if (!$checkBadgeExist) {
+            return response()->json(['Badge' => $checkBadgeExist, 'message' => 'Id does not exist'], 200);
+        }
+
+        $checkImageExist = Image::where('id',$checkBadgeExist->image_id)->first();
+
+        //dd($checkImageExist); exit;
+
+        if($checkImageExist == null){
+            return response()->json(['message' => 'imageId does not exist'], 200);
+        }
+
+        $badge = [
+                    'id' => $checkBadgeExist->id,
+            'name' => $checkBadgeExist->name,
+            'description' => $checkBadgeExist->description,
+            'created_at' => $checkBadgeExist->created_at,
+            'updated_at' => $checkBadgeExist->updated_at,
+            'exam_id' => $checkBadgeExist->exam_id,
+            'image_url' => $checkImageExist->url
+        ];
+
+        return response()->json(['Badge' => $badge, 'message' => 'SUCCESSFUL'], 200);
+    }
+
     public function getAllRecords()
     {
         //return Badge::all();
