@@ -72,7 +72,7 @@ $router->group(['prefix' => 'badge_uploaded','middleware' => 'admin'], function 
 
 $router->group(['prefix' => 'payment','middleware' => 'admin'], function () use ($router) {
     $router->post('create', 'PaymentController@Create');
-    $router->get('get', 'PaymentController@getAll');
+    $router->get('get-all', 'PaymentController@getAllRecords');
     $router->get('view/{id}', 'PaymentController@view');
     $router->put('edit/{id}', 'PaymentController@edit');
     $router->delete('delete/{id}', 'PaymentController@delete');
