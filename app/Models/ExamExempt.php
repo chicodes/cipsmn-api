@@ -44,19 +44,19 @@ class ExamExempt extends Model
         $getAllExamExempted =  ExamExempt::where('userid', $id)
 
                                 ->pluck('exam_id');
-
-        $getAllExamExempted = (array) $getAllExamExempted;
-
-        $getAllExamExempted = array_values($getAllExamExempted);
-
         //dd($getAllExamExempted);
+        return $getAllExamExempted;
 
-        $getExams = Exam::all()->pluck('id');
-
-        $getExams = (array) $getExams;
-
-        $getExams =  array_values($getExams);
-
-        return array_diff($getExams[0], $getAllExamExempted[0]);
+//        $getAllExamExempted = (array) $getAllExamExempted;
+//
+//        $getAllExamExempted = array_values($getAllExamExempted);
+//
+//        $getExams = Exam::all()->pluck('id');
+//
+//        $getExams = (array) $getExams;
+//
+//        $getExams =  array_values($getExams);
+//
+//        return array_diff($getExams[0], $getAllExamExempted[0]);
     }
 }
