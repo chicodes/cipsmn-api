@@ -30,16 +30,22 @@ class ExamExemptController extends Controller
         //validate incoming request
         $this->validate($request, [
             'userid' => 'required|string',
-            'exam_id' => 'required|string'
+            'exam_id' => 'required|array'
         ]);
 
         try {
-            $examExempt = new ExamExempt;
-            $examExempt->userid = $request->input('userid');
-            $examExempt->exam_id = $request->input('exam_id');
-            $examExempt->save();
+            $userid = $request->input('userid');
+            $examIds = $request->input('exam_id');
 
-            return response()->json(['Exam Exempt' => $examExempt, 'message' => 'CREATED'], 201);
+            for($i = 0; $i < count($examIds); $i++){
+                $examExempt = new ExamExempt;
+                $examExempt->userid = $userid;
+                $examExempt->exam_id = $examIds[$i];
+                $examExempt->save();
+                $result[] = $examExempt;
+            }
+
+            return response()->json(['Exam Exempt' => $result, 'message' => 'CREATED'], 201);
 
         } catch (\Exception $e) {
             return response()->json(['message' => 'Something went wrong: ' . $e], 409);
@@ -49,7 +55,9 @@ class ExamExemptController extends Controller
     public function get($id){
 
         $getExempt = ExamExempt::get($id);
-        if ($getExempt->isEmpty()) {
+        //dd($getExempt);
+//        if ($getExempt->isEmpty()) {
+        if (count($getExempt) < 1) {
             return response()->json(['message' => 'No exemption'], 404);
         }
         return $getExempt;
