@@ -115,8 +115,16 @@ $router->group(['prefix' => 'admin/honorary','middleware' => 'admin'], function 
     $router->post('create', 'HonoraryController@create');
     $router->get('get-all', 'HonoraryController@getAll');
     $router->get('get/{id}', 'HonoraryController@get');
-    $router->put('edit/{id}', 'HonoraryController@edit');
+    $router->post('edit/{id}', 'HonoraryController@edit');
     $router->put('delete/{id}', 'HonoraryController@delete');
+});
+
+$router->group(['prefix' => 'admin/induction','middleware' => 'admin'], function () use ($router) {
+    $router->post('create', 'InductionController@create');
+    $router->get('get-all', 'InductionController@getAll');
+    $router->get('get/{id}', 'InductionController@get');
+    $router->post('edit/{id}', 'InductionController@edit');
+    $router->put('delete/{id}', 'InductionController@delete');
 });
 
 

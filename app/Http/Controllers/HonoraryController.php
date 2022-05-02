@@ -52,7 +52,7 @@ class HonoraryController extends Controller
             if (!$honorary) {
                 return response()->json(['Honorary' => $honorary, 'message' => 'Id does not exist'], 200);
             }
-            $honorary->ampunt = $request->input('amount');
+            $honorary->amount = $request->input('amount');
             $honorary->save();
             return response()->json(['Honorary' => $honorary, 'message' => 'UPDATED'], 200);
         } catch (\Exception $e) {
