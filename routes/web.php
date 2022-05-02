@@ -111,4 +111,11 @@ $router->group(['prefix' => 'admin/settings','middleware' => 'admin'], function 
     $router->put('enable-disbale/{id}', 'SettingsController@enableDisable');
 });
 
+$router->group(['prefix' => 'admin/honorary','middleware' => 'admin'], function () use ($router) {
+    $router->post('create', 'HonoraryController@create');
+    $router->get('get', 'HonoraryController@get');
+    $router->put('edit/{id}', 'HonoraryController@edit');
+    $router->put('delete/{id}', 'HonoraryController@delete');
+});
+
 
