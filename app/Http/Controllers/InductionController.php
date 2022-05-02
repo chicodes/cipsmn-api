@@ -31,7 +31,7 @@ class InductionController extends Controller
 
         try {
 
-            $induction = new induction;
+            $induction = new Induction;
             $induction->amount = $request->input('amount');
             $induction->save();
 
