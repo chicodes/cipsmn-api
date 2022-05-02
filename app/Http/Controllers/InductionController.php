@@ -80,9 +80,9 @@ class InductionController extends Controller
 
         $induction = $this->checkinductionExist($id);
         if (!$induction) {
-            return response()->json(['induction' => $induction, 'message' => 'Id does not exist'], 200);
+            return response()->json(['Induction' => $induction, 'message' => 'Id does not exist'], 200);
         }
-        return response()->json(['induction' => $induction, 'message' => 'successfull'], 200);
+        return response()->json(['Induction' => $induction, 'message' => 'successfull'], 200);
     }
 
     public function checkinductionExist($id)
