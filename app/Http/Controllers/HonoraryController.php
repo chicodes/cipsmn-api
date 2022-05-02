@@ -70,9 +70,19 @@ class HonoraryController extends Controller
         return response()->json(['message' => 'DELETE SUCCESSFUL'], 200);
     }
 
-    public function getAllRecords()
+    public function getAll()
     {
         return Honorary::paginate(20);
+    }
+
+    public function get($id)
+    {
+
+        $honorary = $this->checkHonoraryExist($id);
+        if (!$honorary) {
+            return response()->json(['Honorary' => $honorary, 'message' => 'Id does not exist'], 200);
+        }
+        return response()->json(['Honorary' => $honorary, 'message' => 'successfull'], 200);
     }
 
     public function checkHonoraryExist($id)

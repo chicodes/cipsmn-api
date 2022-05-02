@@ -113,7 +113,8 @@ $router->group(['prefix' => 'admin/settings','middleware' => 'admin'], function 
 
 $router->group(['prefix' => 'admin/honorary','middleware' => 'admin'], function () use ($router) {
     $router->post('create', 'HonoraryController@create');
-    $router->get('get', 'HonoraryController@get');
+    $router->get('get-all', 'HonoraryController@getAll');
+    $router->get('get/{id}', 'HonoraryController@get');
     $router->put('edit/{id}', 'HonoraryController@edit');
     $router->put('delete/{id}', 'HonoraryController@delete');
 });
