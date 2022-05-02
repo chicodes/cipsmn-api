@@ -23,7 +23,7 @@ class Induction extends Model
      * @var array
      */
 
-    public $table = 'honorary';
+    public $table = 'induction';
 
     protected $fillable = [
         'amount'
