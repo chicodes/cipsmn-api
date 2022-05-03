@@ -15,10 +15,10 @@ class CreatePaymentSettings extends Migration
     {
         Schema::create('payment_settings', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('description');
+            $table->string('name')->nullable();
+            $table->string('description')->nullable();
             $table->string('amount');
-            $table->string('status');
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }
