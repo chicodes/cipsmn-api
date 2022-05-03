@@ -115,24 +115,27 @@ $router->group(['prefix' => 'admin/honorary','middleware' => 'admin'], function 
     $router->post('create', 'HonoraryController@create');
     $router->get('get-all', 'HonoraryController@getAll');
     $router->get('get/{id}', 'HonoraryController@get');
-    $router->post('edit/{id}', 'HonoraryController@edit');
-    $router->put('delete/{id}', 'HonoraryController@delete');
+    $router->put('edit/{id}', 'HonoraryController@edit');
+    $router->delete('delete/{id}', 'HonoraryController@delete');
 });
 
 $router->group(['prefix' => 'admin/induction','middleware' => 'admin'], function () use ($router) {
     $router->post('create', 'InductionController@create');
     $router->get('get-all', 'InductionController@getAll');
     $router->get('get/{id}', 'InductionController@get');
-    $router->post('edit/{id}', 'InductionController@edit');
-    $router->put('delete/{id}', 'InductionController@delete');
+    $router->put('edit/{id}', 'InductionController@edit');
+    $router->delete('delete/{id}', 'InductionController@delete');
 });
 
 $router->group(['prefix' => 'admin/payment-settings','middleware' => 'admin'], function () use ($router) {
     $router->post('create', 'PaymentSettingsController@create');
     $router->get('get-all', 'PaymentSettingsController@getAll');
+    $router->put('edit/{id}', 'PaymentSettingsController@edit');
+    $router->delete('delete/{id}', 'PaymentSettingsController@delete');
+});
+
+$router->group(['prefix' => 'admin/payment-settings'], function () use ($router) {
     $router->get('get/{id}', 'PaymentSettingsController@get');
-    $router->post('edit/{id}', 'PaymentSettingsController@edit');
-    $router->put('delete/{id}', 'PaymentSettingsController@delete');
 });
 
 
