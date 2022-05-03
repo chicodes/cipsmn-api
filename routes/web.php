@@ -127,4 +127,12 @@ $router->group(['prefix' => 'admin/induction','middleware' => 'admin'], function
     $router->put('delete/{id}', 'InductionController@delete');
 });
 
+$router->group(['prefix' => 'admin/payment-settings','middleware' => 'admin'], function () use ($router) {
+    $router->post('create', 'PaymentSettingsController@create');
+    $router->get('get-all', 'PaymentSettingsController@getAll');
+    $router->get('get/{id}', 'PaymentSettingsController@get');
+    $router->post('edit/{id}', 'PaymentSettingsController@edit');
+    $router->put('delete/{id}', 'PaymentSettingsController@delete');
+});
+
 
