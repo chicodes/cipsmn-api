@@ -134,7 +134,7 @@ $router->group(['prefix' => 'admin/payment-settings','middleware' => 'admin'], f
     $router->delete('delete/{id}', 'PaymentSettingsController@delete');
 });
 
-$router->group(['prefix' => 'admin/payment-settings'], function () use ($router) {
+$router->group(['prefix' => 'user/payment-settings'], function () use ($router) {
     $router->get('get/{id}', 'PaymentSettingsController@get');
 });
 
