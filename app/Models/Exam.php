@@ -47,4 +47,9 @@ class Exam extends Model
     {
         return Badge::all()->count();
     }
+
+    public function examExempt()
+    {
+        return $this->hasMany('App\Models\ExamExempt','exam_id');
+    }
 }

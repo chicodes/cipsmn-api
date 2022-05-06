@@ -41,9 +41,9 @@ class ExamExempt extends Model
     ];
 
     public static function get($id){
-        $getAllExamExempted =  ExamExempt::where('userid', $id)
+        $getAllExamExempted =  ExamExempt::where('userid', $id)->get();
 
-                                ->pluck('exam_id');
+//                                ->pluck('exam_id');
         //dd($getAllExamExempted);
         return $getAllExamExempted;
 
@@ -58,5 +58,10 @@ class ExamExempt extends Model
 //        $getExams =  array_values($getExams);
 //
 //        return array_diff($getExams[0], $getAllExamExempted[0]);
+    }
+
+    public function exam()
+    {
+        return $this->belongsTo('App\Models\Exam');
     }
 }
