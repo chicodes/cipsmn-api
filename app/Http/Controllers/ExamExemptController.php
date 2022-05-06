@@ -64,7 +64,7 @@ class ExamExemptController extends Controller
         if (!$getExempt) {
             return response()->json(['message' => 'No exemption'], 404);
         }
-        return response()->json(['Exam Exempt' => $getExempt, 'message' => 'CREATED'], 201);
+        return response()->json(['ExamExempt' => $getExempt, 'message' => 'CREATED'], 201);
     }
 }
 
