@@ -131,7 +131,7 @@ class UserController extends Controller
         $this->validate($request, [
             'account_type' => 'required|string'
         ]);
-        return User::where('account_type', $request->account_type)->get();
+        return User::where('account_type', $request->account_type)->paginate(20);
     }
 
     public function fileUploadTest(Request $request)
