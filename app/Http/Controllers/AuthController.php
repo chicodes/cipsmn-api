@@ -148,15 +148,22 @@ class AuthController extends Controller
     {
 
         $getDonation = Settings::where('name', 'donation')->first();
+        $checkPaidForRegular = User::getUserRegularPaymentStatus();
+        $checkPaidForExemption = User::getPaidForExemption(); //dd($checkPaidForExemption);
         //if($getDnations->status =='1'){}
-        $donation = $getDonation->status='1' ? 'true':'false';
+        $donation = $getDonation->status=='1' ? 'true':'false';
+        $regular = $checkPaidForRegular =='1' ? 'true':'false';
+        $exemption = $checkPaidForExemption == "1" ? 'true':'false';
+
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60,
             'user_type' => Auth::user()->user_type,
             'account_type' => Auth::user()->account_type,
-            'donations' => $donation
+            'donations' => $donation,
+            'regular' => $regular,
+            'exemption' => $exemption
         ]);
     }
 

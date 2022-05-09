@@ -109,9 +109,4 @@ class PaymentController extends Controller
     {
         return Payment::find($id);
     }
-
-    public function getUserRegularPaymentStatus(){
-        $id = Auth::user()->id;
-        return User::where('id', $id)->pluck('paid_for_regular');
-    }
 }

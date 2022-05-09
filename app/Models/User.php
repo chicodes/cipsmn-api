@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Lumen\Auth\Authorizable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
-use Auth;
+//use Auth;
+use Illuminate\Support\Facades\Auth;
 
 //use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -24,7 +25,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $fillable = [
-        'name', 'email','paid_for_regular'
+        'name', 'email','paid_for_regular','paid_for_exemption'
     ];
 
     /**
@@ -68,4 +69,21 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
             ->limit(10)
             ->get();
     }
+
+    public function getUserRegularPaymentStatus(){
+        $id = Auth::user()->id;
+        $regularPaymentStatus =  User::where('id', $id)->first();
+        return $regularPaymentStatus->paid_for_regular;
+    }
+
+    public function getPaidForExemption(){
+        $id = Auth::user()->id;
+        $checkPaidForExemption =  User::where('id', $id)->first();
+        return $checkPaidForExemption->paid_for_exemption;
+    }
+
+//    public function image()
+//    {
+//        return $this->hasOne('App\Models\Image','image_id');
+//    }
 }

@@ -123,7 +123,15 @@ class UserController extends Controller
 
     public function getUser($id)
     {
-        return User::where('id', $id)->first();
+        $getUser =  User::where('id', $id)->first();
+
+        //$userArray = (array) $getUser;
+
+        //array_push( $userArray, $getUser->image->url);
+
+        return $getUser;
+
+        //return response()->json(['user' => $getUser, 'message' => 'SUCCESFULL'], 200);
     }
 
     public function getUserByAccountType(Request $request)
@@ -154,5 +162,15 @@ class UserController extends Controller
         catch (Exception $e){
             echo $e;
         }
+    }
+
+    public function getUserRegularPaymentStatus(){
+        $id = Auth::user()->id;
+        return User::where('id', $id)->pluck('paid_for_regular');
+    }
+
+    public function getPaidForExemption(){
+        $id = Auth::user()->id;
+        return User::where('id', $id)->pluck('paid_for_exemption');
     }
 }
