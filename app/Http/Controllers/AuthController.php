@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Image;
+use App\Models\PaymentSettings;
 use App\Models\Settings;
 use App\Utility\Helper;
 use Illuminate\Support\Facades\Auth;
@@ -149,7 +150,9 @@ class AuthController extends Controller
 
         $getDonation = Settings::where('name', 'donation')->first();
         $checkPaidForRegular = User::getUserRegularPaymentStatus();
-        $checkPaidForExemption = User::getPaidForExemption(); //dd($checkPaidForExemption);
+        $checkPaidForExemption = User::getPaidForExemption();
+        $regulaAmount = PaymentSettings::getRegularAmount(); //dd($regulaAmount->amount);
+        $exemptionAmount = PaymentSettings::getUserExemptionAmount();
         //if($getDnations->status =='1'){}
         $donation = $getDonation->status=='1' ? 'true':'false';
         $regular = $checkPaidForRegular =='1' ? 'true':'false';
@@ -163,7 +166,9 @@ class AuthController extends Controller
             'account_type' => Auth::user()->account_type,
             'donations' => $donation,
             'regular' => $regular,
-            'exemption' => $exemption
+            'exemption' => $exemption,
+            'regular_amount' => $regulaAmount->amount,
+            'exemption_amount' => $exemptionAmount
         ]);
     }
 
