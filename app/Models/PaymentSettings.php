@@ -50,7 +50,7 @@ class PaymentSettings extends Model
         $id = Auth::user()->id; //dd($id);
         $getExempted = ExamExempt::where('userid', $id)->get(); //dd($getExempted);
         if(!$getExempted->count()){
-            echo 'user has not been exempted';
+            return 'user has not been exempted from any exam';
         }
 
         //get exemption amount
