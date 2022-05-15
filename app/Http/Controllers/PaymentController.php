@@ -45,6 +45,22 @@ class PaymentController extends Controller
             $payment->purpose = $request->input('purpose');
             $payment->save();
 
+            //if payment type equals regular update paid for regular in user table
+            if($request->input('type') == 'regular'){
+                $id = Auth::user()->id;
+                $getUser = User::find($id);
+                $getUser->paid_for_regular = 1;
+                $getUser->save();
+            }
+
+            //if payment type equals exemption update paid for exemption in user table
+            if($request->input('type') == 'regular'){
+                $id = Auth::user()->id;
+                $getUser = User::find($id);
+                $getUser->paid_for_exemption = 1;
+                $getUser->save();
+            }
+
             //return successful response
             return response()->json(['Payment' => $payment, 'message' => 'CREATED'], 201);
 
@@ -89,7 +105,6 @@ class PaymentController extends Controller
 
     public function getAllUserPayment(){
         $id = Auth::user()->id;
-
         $getPayment = Payment::where('userid', '22')->get();
         //dd($getPayment);
         if ($getPayment->isEmpty()) {
