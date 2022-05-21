@@ -191,7 +191,7 @@ class AuthController extends Controller
             'exemption' => $exemption,
             'regular_amount' => $regulaAmount->amount,
             'exemption_amount' => $exemptionAmount,
-            'check_certificate' => $checkCertificate,
+            'check_certificate_uploaded' => $checkCertificate,
             'check_exempted' => $checkExempted,
 //            'regular_paid' => $paidRegular,
 //            'exemption_paid' => $paidExemption
