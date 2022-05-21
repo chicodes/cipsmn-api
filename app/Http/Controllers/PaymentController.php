@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\BadgeUploaded;
 use App\Models\PaymentMade;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -54,12 +55,76 @@ class PaymentController extends Controller
             }
 
             //if payment type equals exemption update paid for exemption in user table
-            if($request->input('type') == 'regular'){
+            if($request->input('type') == 'exemption'){
                 $id = Auth::user()->id;
                 $getUser = User::find($id);
                 $getUser->paid_for_exemption = 1;
                 $getUser->save();
             }
+
+            //Todo if payment equals exam then store corresponding badge
+            $userid = Auth::user()->id;
+            switch($request->input('type')){
+                case "exam1":
+                    $getUserBadge = new BadgeUploaded();
+                    $getUserBadge->userid = $userid;
+                    $getUserBadge->badge_id = '1';
+                    $getUserBadge->badge_type = 'exam1';
+                    $getUserBadge->image_id = '0';
+                    $getUserBadge->save();
+                    break;
+                case "exam2":
+                    $getUserBadge = new BadgeUploaded();
+                    $getUserBadge->userid = $userid;
+                    $getUserBadge->badge_id = '2';
+                    $getUserBadge->badge_type = 'exam2';
+                    $getUserBadge->image_id = '0';
+                    $getUserBadge->save();
+                    break;
+                case "exam3":
+                    $getUserBadge = new BadgeUploaded();
+                    $getUserBadge->userid = $userid;
+                    $getUserBadge->badge_id = '3';
+                    $getUserBadge->badge_type = 'exam3';
+                    $getUserBadge->image_id = '0';
+                    $getUserBadge->save();
+                    break;
+                case "exam4":
+                    $getUserBadge = new BadgeUploaded();
+                    $getUserBadge->userid = $userid;
+                    $getUserBadge->badge_id = '4';
+                    $getUserBadge->badge_type = 'exam4';
+                    $getUserBadge->image_id = '0';
+                    $getUserBadge->save();
+                    break;
+                case "exam5":
+                    $getUserBadge = new BadgeUploaded();
+                    $getUserBadge->userid = $userid;
+                    $getUserBadge->badge_id = '5';
+                    $getUserBadge->badge_type = 'exam5';
+                    $getUserBadge->image_id = '0';
+                    $getUserBadge->save();
+                    break;
+                case "exam6":
+                    $getUserBadge = new BadgeUploaded();
+                    $getUserBadge->userid = $userid;
+                    $getUserBadge->badge_id = '6';
+                    $getUserBadge->badge_type = 'exam6';
+                    $getUserBadge->image_id = '0';
+                    $getUserBadge->save();
+                    break;
+                case "exam7":
+                    $getUserBadge = new BadgeUploaded();
+                    $getUserBadge->userid = $userid;
+                    $getUserBadge->badge_id = '7';
+                    $getUserBadge->badge_type = 'exam7';
+                    $getUserBadge->image_id = '0';
+                    $getUserBadge->save();
+            }
+            //exam1 = badge1. exam2 = badge2 etc
+
+            //Todo if paying for exemption add corresponding exams the user is exempted from and badge as well
+
 
             //return successful response
             return response()->json(['Payment' => $payment, 'message' => 'CREATED'], 201);
@@ -76,7 +141,7 @@ class PaymentController extends Controller
         try {
             $payment = $this->checkPaymentExist($id);
             if (!$payment) {
-                return response()->json(['Badge' => $payment, 'message' => 'Id does not exist'], 200);
+                return response()->json(['Payment' => $payment, 'message' => 'Id does not exist'], 200);
             }
             $payment->type = $request->input('type');
             $payment->amount = $request->input('amount');

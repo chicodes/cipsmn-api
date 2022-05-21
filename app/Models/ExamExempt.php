@@ -12,7 +12,7 @@ use Laravel\Lumen\Auth\Authorizable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 //use Illuminate\Foundation\Auth\User as Authenticatable;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -58,6 +58,11 @@ class ExamExempt extends Model
 //        $getExams =  array_values($getExams);
 //
 //        return array_diff($getExams[0], $getAllExamExempted[0]);
+    }
+
+    public static function checkUserExempted(){
+        $id = Auth::user()->id;
+        return ExamExempt::where('userid', $id)->first();
     }
 
     public function exam()

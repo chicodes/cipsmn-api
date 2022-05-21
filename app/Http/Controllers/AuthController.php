@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Certificate;
+use App\Models\ExamExempt;
 use App\Models\Image;
 use App\Models\PaymentSettings;
 use App\Models\Settings;
@@ -158,6 +160,23 @@ class AuthController extends Controller
         $regular = $checkPaidForRegular =='1' ? 'true':'false';
         $exemption = $checkPaidForExemption == "1" ? 'true':'false';
 
+        $checkCertificate = Certificate::checkAnyCertificateUploaded();
+        if($checkCertificate){
+            $checkCertificate = true;
+        }
+        else{
+            $checkCertificate = false;
+        }
+
+
+        $checkUserExempted = ExamExempt::checkUserExempted();
+        if($checkUserExempted){
+            $checkExempted = true;
+        }
+        else{
+            $checkExempted = false;
+        }
+
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
@@ -168,7 +187,9 @@ class AuthController extends Controller
             'regular' => $regular,
             'exemption' => $exemption,
             'regular_amount' => $regulaAmount->amount,
-            'exemption_amount' => $exemptionAmount
+            'exemption_amount' => $exemptionAmount,
+            'check_certificate' => $checkCertificate,
+            'check_exempted' => $checkExempted
         ]);
     }
 
