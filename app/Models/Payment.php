@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Lumen\Auth\Authorizable;
 
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -48,5 +49,10 @@ class Payment extends Model
             ->orderBy('created_at', 'desc')
             ->limit(10)
             ->get();
+    }
+
+    public static function getUserPayment(){
+        $id = Auth::user()->id;
+        return Payment::where('userid', $id)->get();
     }
 }

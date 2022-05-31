@@ -65,7 +65,9 @@ class Dashboard extends Model
         //this is a regular user so show all exams
         $getAllExamToTake = Exam::all();
 
-        $getAllPayment = Payment::all();
+        //$getAllPayment = Payment::all();
+
+        $getAllPayment = Payment::getUserPayment();
 
         $getExam = $getAllExamToTake;
 
