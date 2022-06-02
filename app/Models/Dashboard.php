@@ -44,7 +44,8 @@ class Dashboard extends Model
             ->get();
 
         $getExam = [];
-        $getAllPayment = Payment::all();
+        //$getAllPayment = Payment::all();
+        $getAllPayment = Payment::getUserPayment();
         foreach($getAllExamToTake as $examToTake){
             $getExam[] = [
                 $examToTake->id,

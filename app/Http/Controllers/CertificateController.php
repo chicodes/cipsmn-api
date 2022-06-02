@@ -32,22 +32,63 @@ class CertificateController extends Controller
             'file' => 'required',
         ]);
 
+        $file[] = $request->file('file');
+
+        //dd(count($file));
+
         try {
+                for($i = 0; $i < count($file); $i++) {
+                    $uploadedFileUrl = cloudinary()->uploadFile($file[$i]->getRealPath())->getSecurePath();
 
-            $uploadedFileUrl = cloudinary()->uploadFile($request->file('file')->getRealPath())->getSecurePath();
+                    $image = $this->fileUpload($request);
+                    $uploadImage = new Image;
+                    $uploadImage->type = 'certificate';
+                    $uploadImage->name = $image['image_name'];
+                    $uploadImage->url = $uploadedFileUrl;
+                    $uploadImage->save();
 
-            $image = $this->fileUpload($request);
-            $uploadImage = new Image;
-            $uploadImage->type = 'certificate';
-            $uploadImage->name = $image['image_name'];
-            $uploadImage->url = $uploadedFileUrl;
-            $uploadImage->save();
+                    $certificate = new Certificate;
+                    $certificate->userid = $id = Auth::user()->id;;
+                    $certificate->image_id = $uploadImage->id;
+                    $certificate->save();
+                }
+            //return successful response
+            return response()->json(['Certificate' => $certificate, 'message' => 'CREATED'], 201);
 
-            $certificate = new Certificate;
-            $certificate->userid = $id = Auth::user()->id;;
-            $certificate->image_id = $uploadImage->id;
-            $certificate->save();
+        } catch (\Exception $e) {
+            //return error message
+            return $e;
+            //return response()->json(['message' => 'User Registration Failed!'], 409);
+        }
+    }
 
+
+    public function createMultipleCertificates(Request $request)
+    {
+        //validate incoming request
+        $this->validate($request, [
+            'number_uploads' => 'required',
+        ]);
+
+        try {
+            for ($i=0; $i < $request->input('number_uploads'); $i++){
+
+                $file = $request->file('file'.$i);
+
+                $uploadedFileUrl = cloudinary()->uploadFile($file->getRealPath())->getSecurePath();
+
+                $image = $this->fileUpload($file);
+                $uploadImage = new Image;
+                $uploadImage->type = 'certificate';
+                $uploadImage->name = $image['image_name'];
+                $uploadImage->url = $uploadedFileUrl;
+                $uploadImage->save();
+
+                $certificate = new Certificate;
+                $certificate->userid = $id = Auth::user()->id;;
+                $certificate->image_id = $uploadImage->id;
+                $certificate->save();
+            }
             //return successful response
             return response()->json(['Certificate' => $certificate, 'message' => 'CREATED'], 201);
 
