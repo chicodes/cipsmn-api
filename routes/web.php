@@ -32,6 +32,7 @@ $router->group(['prefix' => 'user'], function () use ($router) {
     $router->get('/regular-payment-status/get', 'PaymentController@getUserRegularPaymentStatus');
     $router->post('/payment/create', 'PaymentController@makePayment');
     $router->get('/dashboard', 'DashboardController@getUserDashboard');
+    $router->get('/certificate/get-certificates-admin/{id}', 'CertificateController@getuserCertificatesAdmin');
 });
 
 $router->post('logout', 'AuthController@logout');

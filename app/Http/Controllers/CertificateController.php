@@ -128,6 +128,20 @@ class CertificateController extends Controller
 
     }
 
+    public function getuserCertificatesAdmin($id)
+    {
+        $getCertificates =  Certificate::where('userid', $id)->paginate(20);
+        $userCertificate = [];
+        foreach($getCertificates as $getCertificate){
+
+            $getCertificateImage = Image::find($getCertificate->image_id);
+            $userCertificate [] = $getCertificateImage;
+        }
+
+        return $userCertificate;
+
+    }
+
     public function getuserSingleCertificate($id)
     {
          $getCertificate = Certificate::find($id);
