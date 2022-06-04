@@ -48,9 +48,13 @@ class Dashboard extends Model
         $getAllPayment = Payment::getUserPayment();
         foreach($getAllExamToTake as $examToTake){
             $getExam[] = [
-                $examToTake->id,
-                $examToTake->name,
-                $examToTake->description
+                'id' => $examToTake->id,
+                'name' =>$examToTake->name,
+                'description' => $examToTake->description,
+                'image_id' => $examToTake->image_id,
+                'created_at' => $examToTake->created_at,
+                'updated_at' => $examToTake->updated_at,
+                'amount' => $examToTake->amount
             ];
         }
         $convertDashboard = [
