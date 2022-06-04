@@ -37,6 +37,7 @@ class Dashboard extends Model
     ];
 
     public static function getConvertUserDashboard(){
+
         $id = Auth::user()->id;
             $getAllExamToTake = ExamExempt::select()
             ->leftJoin("exam", "exam.id", "!=", "exam_exempt.exam_id")
@@ -66,12 +67,17 @@ class Dashboard extends Model
         //this is a regular user so show all exams
         $getAllExamToTake = Exam::all();
 
-        //$getAllPayment = Payment::all();
+        //make exam response same with conversion exam response
+        $getExam = [];
+        foreach($getAllExamToTake as $examToTake){
+            $getExam[] = [
+                $examToTake->id,
+                $examToTake->name,
+                $examToTake->description
+            ];
+        }
 
         $getAllPayment = Payment::getUserPayment();
-
-        $getExam = $getAllExamToTake;
-
         $regularPayment= Auth::user()->paid_for_regular;
         // if $regularPayment ==0 that means regular user has not made regular payment so dont show user the dashboard,
         //but if 1 that means user has made payment user can now proceed to dashboard
