@@ -157,6 +157,8 @@ class UserController extends Controller
         if(isset($request->account_type)) {
             return User::where('account_type', $request->account_type)->paginate(20);
         }
+
+        return;
     }
 
     public function fileUploadTest(Request $request)
