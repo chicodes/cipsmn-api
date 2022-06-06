@@ -146,6 +146,7 @@ class UserController extends Controller
 
     public function getUserSearch(Request $request)
     {
+        //if isset search term
         if(isset($request->search_term)){
             return User::where('firstname','like', '%' . $request->search_term . '%')
                 ->orWhere('lastname', 'like', '%' . $request->search_term . '%')
@@ -153,7 +154,7 @@ class UserController extends Controller
                 ->paginate(20);
         }
         //if account_type is set
-        elseif(isset($request->account_type)) {
+        if(isset($request->account_type)) {
             return User::where('account_type', $request->account_type)->paginate(20);
         }
     }
