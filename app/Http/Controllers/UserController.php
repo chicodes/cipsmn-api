@@ -92,6 +92,7 @@ class UserController extends Controller
             $user->address = $request->input('address');
             $user->account_type = $request->input('account_type');
             $user->user_type = $request->input('user_type');
+            $user->reg_id= $request->input('reg_id');
             $plainPassword = $request->input('password');
             $user->password = app('hash')->make($plainPassword);
             $user->save();
