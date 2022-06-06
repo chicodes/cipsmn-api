@@ -65,6 +65,7 @@ class UserController extends Controller
             $user->image_id = $uploadImage->id;
             $plainPassword = $request->input('password');
             $user->password = app('hash')->make($plainPassword);
+            $user->reg_id= $request->input('reg_id');
 
             $user->save();
 
