@@ -96,7 +96,8 @@ $router->group(['prefix' => 'admin/user'], function () use ($router) {
     $router->post('edit/{id}', 'UserController@edit');
     $router->delete('delete/{id}', 'UserController@delete');
     $router->post('file-upload', 'UserController@fileUploadTest');
-    $router->post('filter', 'UserController@getUserByAccountType');
+    //$router->post('filter', 'UserController@getUserByAccountType');
+    $router->post('search', 'UserController@getUserSearch');
 });
 
 

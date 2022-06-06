@@ -139,9 +139,23 @@ class UserController extends Controller
     public function getUserByAccountType(Request $request)
     {
         $this->validate($request, [
-            'account_type' => 'required|string'
+            'account_type' => 'required|string',
         ]);
         return User::where('account_type', $request->account_type)->paginate(20);
+    }
+
+    public function getUserSearch(Request $request)
+    {
+        if(isset($request->search_term)){
+            return User::where('firstname','like', '%' . $request->search_term . '%')
+                ->orWhere('lastname', 'like', '%' . $request->search_term . '%')
+                ->orWhere('reg_id', 'like', '%' . $request->search_term . '%')
+                ->paginate(20);
+        }
+        //if account_type is set
+        elseif(isset($request->account_type)) {
+            return User::where('account_type', $request->account_type)->paginate(20);
+        }
     }
 
     public function fileUploadTest(Request $request)
