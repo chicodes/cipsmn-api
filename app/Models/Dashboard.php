@@ -37,29 +37,28 @@ class Dashboard extends Model
     ];
 
     public static function getConvertUserDashboard(){
+
+        $getAllPayment = Payment::getUserPayment();
+
         $id = Auth::user()->id;
-            $getAllExamToTake = ExamExempt::select()
-            ->leftJoin("exam", "exam.id", "!=", "exam_exempt.exam_id")
-            ->where("exam_exempt.userid", "=", $id)
+
+        //get exams exempted and convert to array
+        $getExamExempt = ExamExempt::where('userid', $id)
+                        ->get()
+                        ->pluck('exam_id')
+                        ->toArray();
+
+        //get exams in system
+        $getAllExam = Exam::whereNotIn('id', $getExamExempt)->pluck('id')
+                        ->toArray();
+
+        //get exams that has not been taken by user
+        $getAllExamToTake = Exam::whereIn("id", $getAllExam)
             ->get();
 
-        $getExam = [];
-        //$getAllPayment = Payment::all();
-        $getAllPayment = Payment::getUserPayment();
-        foreach($getAllExamToTake as $examToTake){
-            $getExam[] = [
-                'id' => $examToTake->id,
-                'name' =>$examToTake->name,
-                'description' => $examToTake->description,
-                'image_id' => $examToTake->image_id,
-                'created_at' => $examToTake->created_at,
-                'updated_at' => $examToTake->updated_at,
-                'amount' => $examToTake->amount
-            ];
-        }
         $convertDashboard = [
             'name' => Auth::user()->firstname." ".Auth::user()->lastname,
-            'exam' => $getExam,
+            'exam' => $getAllExamToTake,
             'payment' => $getAllPayment
         ];
         return $convertDashboard;
