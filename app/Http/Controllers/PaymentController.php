@@ -62,6 +62,13 @@ class PaymentController extends Controller
                 $getUser->save();
             }
 
+            if($request->input('type') == 'registration'){
+                $id = Auth::user()->id;
+                $getUser = User::find($id);
+                $getUser->paid_for_registration = 1;
+                $getUser->save();
+            }
+
             //Todo if payment equals exam then store corresponding badge
             $userid = Auth::user()->id;
             switch($request->input('type')){
