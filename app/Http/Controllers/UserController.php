@@ -192,4 +192,32 @@ class UserController extends Controller
         $id = Auth::user()->id;
         return User::where('id', $id)->pluck('paid_for_exemption');
     }
+
+    public function changePassword(Request $request)
+    {
+        $id = Auth::user()->id;
+
+        //validate incoming request
+        $this->validate($request, [
+            'password' => 'required|string',
+            'confirm_password' => 'required|string'
+        ]);
+
+        try {
+
+            $user = $this->checkUserExist($id);
+            if (!$user) {
+                return response()->json(['User' => $user, 'message' => 'Id does not exist'], 200);
+            }
+            $plainPassword = $request->input('password');
+            $user->password = app('hash')->make($plainPassword);
+            $user->save();
+
+            //return successful response
+            return response()->json(['user' => $user, 'message' => 'password succesfully updated'], 201);
+
+        } catch (\Exception $e) {
+            return $e;
+        }
+    }
 }
