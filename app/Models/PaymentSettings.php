@@ -44,6 +44,10 @@ class PaymentSettings extends Model
         return PaymentSettings::where('name', 'regular')->first();
     }
 
+    public static function getRegistrationAmount(){
+        return PaymentSettings::where('name', 'registration')->first();
+    }
+
     public static function getUserExemptionAmount(){
 
         //get all the exams exempted from and the subjects under each exam and multiply by 5000

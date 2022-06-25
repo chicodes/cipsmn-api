@@ -155,10 +155,13 @@ class AuthController extends Controller
 //        $checkPaidForExemption = User::getPaidForExemption();
         $regulaAmount = PaymentSettings::getRegularAmount(); //dd($regulaAmount->amount);
         $exemptionAmount = PaymentSettings::getUserExemptionAmount();
+        $registrationAmount = PaymentSettings::getRegistrationAmount();
         //if($getDnations->status =='1'){}
         $donation = $getDonation->status=='1' ? 'true':'false';
         $regular = Auth::user()->paid_for_regular == 1 ? true:false;
         $exemption = Auth::user()->paid_for_exemption == 1 ? true:false;
+
+        $registrationPayment = Auth::user()->paid_for_registration;
 
         $checkCertificate = Certificate::checkAnyCertificateUploaded();
         if($checkCertificate){
@@ -191,6 +194,8 @@ class AuthController extends Controller
             'exemption' => $exemption,
             'regular_amount' => $regulaAmount->amount,
             'exemption_amount' => $exemptionAmount,
+            'paid_for_registration' => $registrationPayment,
+            'registration' => $registrationAmount,
             'check_certificate_uploaded' => $checkCertificate,
             'check_exempted' => $checkExempted,
 //            'regular_paid' => $paidRegular,

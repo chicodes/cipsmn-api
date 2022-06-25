@@ -42,7 +42,7 @@ class Dashboard extends Model
 
         $userid = Auth::user()->id;
 
-        $registrationPayment = Auth::user()->paid_for_registration;
+        //$registrationPayment = Auth::user()->paid_for_registration;
 
 
 
@@ -97,7 +97,7 @@ class Dashboard extends Model
         $convertDashboard = [
             'name' => Auth::user()->firstname." ".Auth::user()->lastname,
             'exam' => $getAllExamToTake,
-            'paid_for_registration' => $registrationPayment,
+//            'paid_for_registration' => $registrationPayment,
             'payment' => $getAllPayment
         ];
         return $convertDashboard;
