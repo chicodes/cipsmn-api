@@ -180,8 +180,8 @@ class AuthController extends Controller
             $checkExempted = false;
         }
 
-//        $paidRegular = Auth::user()->paid_for_regular == 1 ? true:false;
-//        $paidExemption = Auth::user()->paid_for_exemption == 1 ? true:false;
+        $paidRegular = Auth::user()->paid_for_regular == 1 ? true:false;
+        $paidExemption = Auth::user()->paid_for_exemption == 1 ? true:false;
 
         return response()->json([
             'access_token' => $token,
@@ -198,8 +198,8 @@ class AuthController extends Controller
             'registration_amount' => $registrationAmount->amount,
             'check_certificate_uploaded' => $checkCertificate,
             'check_exempted' => $checkExempted,
-//            'regular_paid' => $paidRegular,
-//            'exemption_paid' => $paidExemption
+            'regular_paid' => $paidRegular,
+            'exemption_paid' => $paidExemption
         ]);
     }
 
