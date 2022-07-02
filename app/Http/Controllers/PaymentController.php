@@ -30,16 +30,17 @@ class PaymentController extends Controller
         //validate incoming request
         $this->validate($request, [
             'type' => 'required|string',
+            'name' => 'required|string',
             'amount' => 'required|string',
             'status' => 'required|string',
-            'userid' => 'required|string',
-            'type' => 'required|string'
+            'userid' => 'required|string'
         ]);
 
         try {
 
             $payment = new Payment;
             $payment->type = $request->input('type');
+            $payment->name = $request->input('name');
             $payment->amount = $request->input('amount');
             $payment->status = $request->input('status');
             $payment->userid = Auth::user()->id;
