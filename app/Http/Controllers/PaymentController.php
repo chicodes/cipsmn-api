@@ -40,8 +40,8 @@ class PaymentController extends Controller
 
             $payment = new Payment;
 
-            if($payment->type == 'exam'){
-                $payment->name = $request->input('name');
+            if($request->input('type') == "exam"){
+                $payment->name = $request->input('name');;
             }
 
             $payment->type = $request->input('type');
@@ -74,64 +74,14 @@ class PaymentController extends Controller
                 $getUser->save();
             }
 
-            //Todo if payment equals exam then store corresponding badge
-            $userid = Auth::user()->id;
-            switch($request->input('type')){
-                case "exam1":
-                    $getUserBadge = new BadgeUploaded();
-                    $getUserBadge->userid = $userid;
-                    $getUserBadge->badge_id = '1';
-                    $getUserBadge->badge_type = 'exam1';
-                    $getUserBadge->image_id = '0';
-                    $getUserBadge->save();
-                    break;
-                case "exam2":
-                    $getUserBadge = new BadgeUploaded();
-                    $getUserBadge->userid = $userid;
-                    $getUserBadge->badge_id = '2';
-                    $getUserBadge->badge_type = 'exam2';
-                    $getUserBadge->image_id = '0';
-                    $getUserBadge->save();
-                    break;
-                case "exam3":
-                    $getUserBadge = new BadgeUploaded();
-                    $getUserBadge->userid = $userid;
-                    $getUserBadge->badge_id = '3';
-                    $getUserBadge->badge_type = 'exam3';
-                    $getUserBadge->image_id = '0';
-                    $getUserBadge->save();
-                    break;
-                case "exam4":
-                    $getUserBadge = new BadgeUploaded();
-                    $getUserBadge->userid = $userid;
-                    $getUserBadge->badge_id = '4';
-                    $getUserBadge->badge_type = 'exam4';
-                    $getUserBadge->image_id = '0';
-                    $getUserBadge->save();
-                    break;
-                case "exam5":
-                    $getUserBadge = new BadgeUploaded();
-                    $getUserBadge->userid = $userid;
-                    $getUserBadge->badge_id = '5';
-                    $getUserBadge->badge_type = 'exam5';
-                    $getUserBadge->image_id = '0';
-                    $getUserBadge->save();
-                    break;
-                case "exam6":
-                    $getUserBadge = new BadgeUploaded();
-                    $getUserBadge->userid = $userid;
-                    $getUserBadge->badge_id = '6';
-                    $getUserBadge->badge_type = 'exam6';
-                    $getUserBadge->image_id = '0';
-                    $getUserBadge->save();
-                    break;
-                case "exam7":
-                    $getUserBadge = new BadgeUploaded();
-                    $getUserBadge->userid = $userid;
-                    $getUserBadge->badge_id = '7';
-                    $getUserBadge->badge_type = 'exam7';
-                    $getUserBadge->image_id = '0';
-                    $getUserBadge->save();
+            if($request->input('type') == 'exam') {
+                $userid = Auth::user()->id;
+                $getUserBadge = new BadgeUploaded();
+                $getUserBadge->userid = $userid;
+                $getUserBadge->badge_id = '1';
+                $getUserBadge->badge_type = $request->input('name');
+                $getUserBadge->image_id = '0';
+                $getUserBadge->save();
             }
             //exam1 = badge1. exam2 = badge2 etc
 

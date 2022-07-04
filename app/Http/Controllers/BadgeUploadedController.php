@@ -104,6 +104,7 @@ class BadgeUploadedController extends Controller
 
             $myBadges = [
                             'image_url' => $image,
+                            'name' => $badge->name,
 
                         ];
         }
