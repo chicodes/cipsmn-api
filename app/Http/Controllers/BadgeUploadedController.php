@@ -92,23 +92,22 @@ class BadgeUploadedController extends Controller
     public function getUserBadge()
     {
         $userid = Auth::user()->id;
-        //$userid = '1';
+        //dd($userid);
         $getBadges =  BadgeUploaded::where('userid', $userid)->get();
         //dd($getBadges);
         $myBadges = [];
         foreach ($getBadges as $getBadge){
-
             $badge = Badge::where('id', $getBadge->badge_id)->first();
             //dd($getBadge->badge_id);
-            $image = Image::where('id', $badge->image_id)->pluck('url');
+            $image = Image::where('id', $badge->image_id)->first();
 
-            $myBadges = [
-                            'image_url' => $image,
+            $myBadges[] = [
+                            'image_url' => $image->url,
                             'name' => $badge->name,
-
                         ];
         }
 
         return $myBadges;
+        //return $userid;
     }
 }
