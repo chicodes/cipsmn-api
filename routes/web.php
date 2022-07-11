@@ -111,7 +111,7 @@ $router->group(['prefix' => 'admin/settings','middleware' => 'admin'], function 
     $router->post('create', 'SettingsController@create');
     $router->get('get', 'SettingsController@get');
     $router->put('edit/{id}', 'SettingsController@edit');
-    $router->put('enable-disbale/{id}', 'SettingsController@enableDisable');
+    $router->put('enable-disable/{name}', 'SettingsController@enableDisable');
 });
 
 $router->group(['prefix' => 'admin/honorary','middleware' => 'admin'], function () use ($router) {
@@ -141,4 +141,7 @@ $router->group(['prefix' => 'user/payment-settings'], function () use ($router) 
     $router->get('get/{id}', 'PaymentSettingsController@get');
 });
 
+$router->group(['prefix' => 'admin/donation','middleware' => 'admin'], function () use ($router) {
+    $router->get('', 'SettingsController@getDonation');
+});
 

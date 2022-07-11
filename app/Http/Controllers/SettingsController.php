@@ -57,14 +57,16 @@ class SettingsController extends Controller
         }
     }
 
-    public function enableDisable(Request $request, $id)
+    public function enableDisable(Request $request, $name)
     {
         //validate incoming request
         $this->validate($request, [
             'status' => 'required|string'
         ]);
 
-        $settings = $this->checkSettingsExist($id);
+        $settings = $this->checkSettingsExistUsingName($name);
+
+
 
         try {
             $settings->status = $request->input('status');
@@ -78,5 +80,20 @@ class SettingsController extends Controller
     public function checkSettingsExist($id)
     {
         return Settings::find($id);
+    }
+
+    public function checkSettingsExistUsingName($name)
+    {
+        return Settings::where('name', $name)->first();
+    }
+
+    public function getDonation(){
+        $getDonation = Settings::where('name', 'donation')->first();
+
+        return response()->json([
+            'name' => $getDonation->name,
+            'status' => $getDonation->status,
+
+        ]);
     }
 }
