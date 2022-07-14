@@ -41,7 +41,8 @@ class Payment extends Model
 
     public static function getTotalPayment(): int
     {
-        return Payment::all()->count();
+        //return Payment::all()->count();
+        return Payment::sum('amount');
     }
 
     public static function getRecentPayment(){
