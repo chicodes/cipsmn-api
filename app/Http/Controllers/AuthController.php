@@ -200,8 +200,8 @@ class AuthController extends Controller
             'check_exempted' => $checkExempted,
             'regular_paid' => $paidRegular,
             'exemption_paid' => $paidExemption,
-            //'reg_id' => Auth::user()->reg_id,
-            'reg_id33' => '8776'
+            'reg_id' => Auth::user()->reg_id,
+            //'reg_id33' => '8776'
         ]);
     }
 
