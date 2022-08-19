@@ -89,7 +89,7 @@ class PaymentController extends Controller
 
 
             //return successful response
-            return response()->json(['Payment' => $payment, 'message' => 'Payment Succesful'], 201);
+            return response()->json(['Payment' => $payment, 'message' => 'Payment Successful'], 201);
 
         } catch (\Exception $e) {
             //return error message
