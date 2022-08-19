@@ -34,6 +34,8 @@ $router->group(['prefix' => 'user'], function () use ($router) {
     $router->get('/dashboard', 'DashboardController@getUserDashboard');
     $router->get('/certificate/get-certificates-admin/{id}', 'CertificateController@getuserCertificatesAdmin');
     $router->put('/change-password', 'UserController@changePassword');
+    $router->post('/edit-profile', 'UserController@editProfileMember');
+    $router->get('/get-my-profile', 'UserController@getMyUserProfile');
 });
 
 $router->post('logout', 'AuthController@logout');

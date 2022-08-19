@@ -199,7 +199,9 @@ class AuthController extends Controller
             'check_certificate_uploaded' => $checkCertificate,
             'check_exempted' => $checkExempted,
             'regular_paid' => $paidRegular,
-            'exemption_paid' => $paidExemption
+            'exemption_paid' => $paidExemption,
+            //'reg_id' => Auth::user()->reg_id,
+            'reg_id33' => '8776'
         ]);
     }
 

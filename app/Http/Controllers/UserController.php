@@ -220,4 +220,42 @@ class UserController extends Controller
             return $e;
         }
     }
+
+    public function editProfileMember(Request $request)
+    {
+        try {
+            $id = Auth::user()->id;
+            $user = $this->checkUserExist($id);
+            if (!$user) {
+                return response()->json(['User' => $user, 'message' => 'User does not exist'], 404);
+            }
+            $user->firstname = $request->input('firstname');
+            $user->lastname = $request->input('lastname');
+            $user->email = $request->input('email');
+            $user->phone = $request->input('phone');
+            $user->address = $request->input('address');
+            $user->account_type = $request->input('account_type');
+            $user->user_type = $request->input('user_type');
+            $plainPassword = $request->input('password');
+            $user->password = app('hash')->make($plainPassword);
+            $user->save();
+            return response()->json(['User' => $user, 'message' => 'UPDATED'], 200);
+        } catch (\Exception $e) {
+            return $e;
+        }
+    }
+
+    public function getMyUserProfile()
+    {
+        $id = Auth::user()->id;
+        $getUser =  User::where('id', $id)->first();
+
+        //$userArray = (array) $getUser;
+
+        //array_push( $userArray, $getUser->image->url);
+
+        return $getUser;
+
+        //return response()->json(['user' => $getUser, 'message' => 'SUCCESFULL'], 200);
+    }
 }
