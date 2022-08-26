@@ -109,6 +109,11 @@ $router->group(['prefix' => 'admin/exempt-exam','middleware' => 'admin'], functi
     $router->get('get/{id}', 'ExamExemptController@get');
 });
 
+$router->group(['prefix' => 'admin/exempt-exam-payment','middleware' => 'admin'], function () use ($router) {
+    $router->post('create', 'ExamExemptController@exemptFromExemptionPay');
+    $router->get('get/{id}', 'ExamExemptController@getExamPaymentExempt');
+});
+
 $router->group(['prefix' => 'admin/settings','middleware' => 'admin'], function () use ($router) {
     $router->post('create', 'SettingsController@create');
     $router->get('get', 'SettingsController@get');

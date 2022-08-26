@@ -197,6 +197,8 @@ class AuthController extends Controller
             'paid_for_registration' => $registrationPayment,
             'registration_amount' => $registrationAmount->amount,
             'check_certificate_uploaded' => $checkCertificate,
+            //certificate_upload_required was added to handle the update of regular and conversion being the same
+            'certificate_upload_required' => 'true',
             'check_exempted' => $checkExempted,
             'regular_paid' => $paidRegular,
             'exemption_paid' => $paidExemption,

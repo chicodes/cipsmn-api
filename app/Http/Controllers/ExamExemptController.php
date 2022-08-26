@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\ExamExempt;
+use App\Models\ExamPaymentExempt;
 use App\Models\Image;
 use App\Utility\Helper;
 use Illuminate\Support\Facades\Auth;
@@ -65,6 +66,43 @@ class ExamExemptController extends Controller
             return response()->json(['message' => 'No exemption'], 404);
         }
         return response()->json(['ExamExempt' => $getExempt, 'message' => 'CREATED'], 201);
+    }
+
+    public function exemptFromExemptionPay(Request $request){
+        //validate incoming request
+        $this->validate($request, [
+            'userid' => 'required|string',
+            'exam_id' => 'required|array'
+        ]);
+
+        try {
+            $userid = $request->input('userid');
+            $examIds = $request->input('exam_id');
+
+            for($i = 0; $i < count($examIds); $i++){
+                $examPaymentExempt = new ExamExempt;
+                $examPaymentExempt->userid = $userid;
+                $examPaymentExempt->exam_id = $examIds[$i];
+                $examPaymentExempt->save();
+                $result[] = $examPaymentExempt;
+            }
+            return response()->json(['Exam Payment Exemption' => $result, 'message' => 'CREATED'], 201);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Something went wrong: ' . $e], 409);
+        }
+    }
+
+    public function getExamPaymentExempt($id){
+
+        $getUserExamExempt = ExamPaymentExempt::getExamExempt($id);
+        $allExempt = [];
+        foreach ($getUserExamExempt as $getExamExempt){
+            $allExempt = $getExamExempt->exam;
+        }
+        if (!$getUserExamExempt) {
+            return response()->json(['message' => 'No exemption'], 404);
+        }
+        return response()->json(['ExamExempt' => $getUserExamExempt, 'message' => 'CREATED'], 201);
     }
 }
 
