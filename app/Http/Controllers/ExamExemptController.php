@@ -80,7 +80,7 @@ class ExamExemptController extends Controller
             $examIds = $request->input('exam_id');
 
             for($i = 0; $i < count($examIds); $i++){
-                $examPaymentExempt = new ExamExempt;
+                $examPaymentExempt = new ExamPaymentExempt;
                 $examPaymentExempt->userid = $userid;
                 $examPaymentExempt->exam_id = $examIds[$i];
                 $examPaymentExempt->save();
@@ -97,12 +97,12 @@ class ExamExemptController extends Controller
         $getUserExamExempt = ExamPaymentExempt::getExamExempt($id);
         $allExempt = [];
         foreach ($getUserExamExempt as $getExamExempt){
-            $allExempt = $getExamExempt->exam;
+            $allExempt[] = $getExamExempt;
         }
         if (!$getUserExamExempt) {
             return response()->json(['message' => 'No exemption'], 404);
         }
-        return response()->json(['ExamExempt' => $getUserExamExempt, 'message' => 'CREATED'], 201);
+        return response()->json(['ExamExempt' => $allExempt, 'message' => 'successful'], 201);
     }
 }
 

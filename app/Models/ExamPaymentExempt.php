@@ -40,6 +40,6 @@ class ExamPaymentExempt extends Model
     ];
 
     public static function getExamExempt($id){
-        return ExamPaymentExempt::where('useird', $id)->get();
+        return ExamPaymentExempt::where('userid', $id)->get();
     }
 }
