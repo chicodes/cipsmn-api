@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use App\Models\Badge;
 use Carbon\Carbon;
@@ -229,15 +230,55 @@ class UserController extends Controller
             if (!$user) {
                 return response()->json(['User' => $user, 'message' => 'User does not exist'], 404);
             }
-            $user->firstname = $request->input('firstname');
-            $user->lastname = $request->input('lastname');
-            $user->email = $request->input('email');
-            $user->phone = $request->input('phone');
-            $user->address = $request->input('address');
-            $user->account_type = $request->input('account_type');
-            $user->user_type = $request->input('user_type');
-            $plainPassword = $request->input('password');
-            $user->password = app('hash')->make($plainPassword);
+            Log::info("Address filled", [$user->address]);
+            if($request->input('firstname')==null){
+                $user->firstname = $user->firstname;
+            }else{
+                $user->firstname = $request->input('firstname');
+            }
+
+            if($request->input('lastname')==null){
+                $user->lastname = $user->lastname;
+            }else{
+                $user->lastname = $request->input('lastname');
+            }
+
+            if($request->input('email')==null){
+                $user->email = $user->email;
+            }else{
+                $user->email = $request->input('email');
+            }
+
+            if($request->input('phone')==null){
+                $user->phone = $user->phone;
+            }else{
+                $user->phone = $request->input('phone');
+            }
+
+            if($request->input('address')==null){
+                $user->account_type = $user->account_type;
+            }else{
+                $user->account_type = $request->input('account_type');
+            }
+
+            if($request->input('user_type')==null){
+                $user->user_type = $user->user_type;
+            }else{
+                $user->user_type = $request->input('user_type');
+            }
+
+            if($request->input('address')==null){
+                $user->address = $user->address;
+            }else{
+                $user->address = $request->input('address');
+            }
+
+            if($request->input('password')==null){
+                $user->password = $user->password;
+            }else{
+                $user->password = app('hash')->make($request->input('password'));
+            }
+
             $user->save();
             return response()->json(['User' => $user, 'message' => 'UPDATED'], 200);
         } catch (\Exception $e) {

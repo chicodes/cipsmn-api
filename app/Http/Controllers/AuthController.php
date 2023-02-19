@@ -153,11 +153,23 @@ class AuthController extends Controller
         $getDonation = Settings::where('name', 'donation')->first();
 //        $checkPaidForRegular = User::getUserRegularPaymentStatus();
 //        $checkPaidForExemption = User::getPaidForExemption();
-        $regulaAmount = PaymentSettings::getRegularAmount(); //dd($regulaAmount->amount);
+        $getRegularAmount = PaymentSettings::getRegularAmount(); //dd($regulaAmount->amount);
         $exemptionAmount = PaymentSettings::getUserExemptionAmount();
-        $registrationAmount = PaymentSettings::getRegistrationAmount();
+        $getRegistrationAmount = PaymentSettings::getRegistrationAmount();
         //if($getDnations->status =='1'){}
-        $donation = $getDonation->status=='1' ? 'true':'false';
+        $donation = null;
+        if($getDonation!=null) {
+            $donation = $getDonation->status == '1' ? 'true' : 'false';
+        }
+        $regulaAmount = null;
+        if($getRegularAmount!=null){
+            $regulaAmount = $getRegularAmount->amount;
+        }
+        $registrationAmount = null;
+        if($getRegistrationAmount!=null){
+            $registrationAmount = $getRegistrationAmount->amount;
+        }
+
         $regular = Auth::user()->paid_for_regular == 1 ? true:false;
         $exemption = Auth::user()->paid_for_exemption == 1 ? true:false;
 
@@ -192,10 +204,10 @@ class AuthController extends Controller
             'donations' => $donation,
             'regular' => $regular,
             'exemption' => $exemption,
-            'regular_amount' => $regulaAmount->amount,
+            'regular_amount' => $regulaAmount,
             'exemption_amount' => $exemptionAmount,
             'paid_for_registration' => $registrationPayment,
-            'registration_amount' => $registrationAmount->amount,
+            'registration_amount' => $registrationAmount,
             'check_certificate_uploaded' => $checkCertificate,
             //certificate_upload_required was added to handle the update of regular and conversion being the same
             //'certificate_upload_required' => 'true',
