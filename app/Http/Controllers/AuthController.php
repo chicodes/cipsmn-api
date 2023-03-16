@@ -195,7 +195,7 @@ class AuthController extends Controller
         $paidRegular = Auth::user()->paid_for_regular == 1 ? true:false;
         $paidExemption = Auth::user()->paid_for_exemption == 1 ? true:false;
 
-        $getPicture =  Image::where('id', Auth::user()->image_id)->pluck('url');
+        $getPicture =  Image::where('id', Auth::user()->image_id)->pluck('url')->first();
 
         return response()->json([
             'access_token' => $token,
