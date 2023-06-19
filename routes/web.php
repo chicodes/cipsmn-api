@@ -152,3 +152,15 @@ $router->group(['prefix' => 'admin/donation','middleware' => 'admin'], function 
     $router->get('', 'SettingsController@getDonation');
 });
 
+$router->group(['prefix' => 'admin/roles','middleware' => 'admin'], function () use ($router) {
+    $router->post('', 'RolesPermissionsController@addRole');
+    $router->put('/{id}', 'RolesPermissionsController@editRole');
+    $router->get('', 'RolesPermissionsController@getAllRoles');
+});
+
+$router->group(['prefix' => 'admin/permission','middleware' => 'admin'], function () use ($router) {
+    $router->post('', 'RolesPermissionsController@addPermission');
+    $router->put('/{id}', 'RolesPermissionsController@editPermission');
+    $router->get('', 'RolesPermissionsController@getAllPermissions');
+    $router->get('assign-roles', 'RolesPermissionsController@assignRoleToPermission');
+});
