@@ -162,5 +162,5 @@ $router->group(['prefix' => 'admin/permission','middleware' => 'admin'], functio
     $router->post('', 'RolesPermissionsController@addPermission');
     $router->put('/{id}', 'RolesPermissionsController@editPermission');
     $router->get('', 'RolesPermissionsController@getAllPermissions');
-    $router->get('assign-roles', 'RolesPermissionsController@assignRoleToPermission');
+    $router->post('assign-roles', 'RolesPermissionsController@assignRoleToPermission');
 });
