@@ -5,11 +5,14 @@ use App\Models\Certificate;
 use App\Models\ExamExempt;
 use App\Models\Image;
 use App\Models\PaymentSettings;
+use App\Models\Permission;
+use App\Models\RolePermission;
 use App\Models\Settings;
 use App\Utility\Helper;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use App\Models\User;
 
@@ -196,6 +199,18 @@ class AuthController extends Controller
         $paidExemption = Auth::user()->paid_for_exemption == 1 ? true:false;
 
         $getPicture =  Image::where('id', Auth::user()->image_id)->pluck('url')->first();
+        $permissionNames = array();
+        //TODO get user permissions and return
+//        $getPermissionIds =  RolePermission::where('userid', Auth::user()->id)->pluck('permission_id');
+//        foreach ($getPermissionIds as $getPermissionId){
+//            $permissionNames[] = Permission::where('id', $getPermissionId)->get();
+//        }
+
+        $permissionNames = DB::table('role_permission')
+            ->join('permission', 'role_permission.permission_id', '=', 'permission.id')
+            ->where('role_permission.userid', Auth::user()->id)
+            ->select('permission.name')
+            ->get();
 
         return response()->json([
             'access_token' => $token,
@@ -217,7 +232,8 @@ class AuthController extends Controller
             'regular_paid' => $paidRegular,
             'exemption_paid' => $paidExemption,
             'reg_id' => Auth::user()->reg_id,
-            'picture_url' => $getPicture
+            'picture_url' => $getPicture,
+            'permissions' => $permissionNames,
             //'reg_id33' => '8776'
         ]);
     }
