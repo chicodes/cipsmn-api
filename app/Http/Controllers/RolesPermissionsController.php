@@ -8,6 +8,7 @@ use App\Models\Permission;
 use App\Models\Role;
 use App\Models\RolePermission;
 use App\Models\User;
+use App\Utility\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Expr\Error;
@@ -127,7 +128,7 @@ class RolesPermissionsController extends Controller
         return Permission::paginate(20);
     }
 
-    public function assignRoleToPermission(Request $request)
+    public function assignUserPermissionToRole(Request $request)
     {
         try {
             $role = $this->checkRoletExist($request->input('role_id'));
@@ -135,23 +136,22 @@ class RolesPermissionsController extends Controller
                 return response()->json(['Role' => $role, 'message' => 'Role Id does not exist'], 200);
             }
 
-            $permission = $this->checkPermissionExist($request->input('permission_id'));
-            if (!$permission) {
-                return response()->json(['Permission' => $permission, 'message' => 'Permission Id does not exist'], 200);
-            }
-
-
             $user = $this->checkUserExist($request->input('userid'));
             if (!$user) {
                 return response()->json(['User' => $user, 'message' => 'User Id does not exist'], 200);
             }
 
-            $rolePermission = new RolePermission();
-            $rolePermission->role_id = $request->input('role_id');
-            $rolePermission->permission_id = $request->input('permission_id');
-            $rolePermission->userid = $request->input('userid');
-            $rolePermission->save();
-            return response()->json(['Permission' => $rolePermission, 'message' => 'CREATED'], 201);
+            $roleAlreadyAssigned = $this->checkRoleAlreadyAssigned($request->input('userid'));
+
+            if($roleAlreadyAssigned){
+                return response()->json(['Permission' => null, 'message' => 'Role already assigned to user'], 201);
+            }
+
+//            $rolePermission = new RolePermission();
+            $user->role_id = $request->input('role_id');
+            //$rolePermission->userid = $request->input('userid');
+            $user->save();
+            return response()->json(['User' => $user, 'message' => 'CREATED'], 201);
         } catch (\Exception $e) {
             return $e;
         }
@@ -170,5 +170,25 @@ class RolesPermissionsController extends Controller
     public function checkUserExist($id)
     {
         return User::find($id);
+    }
+
+    public function checkRoleAlreadyAssigned($id)
+    {
+        $user =  User::find($id);
+
+        if($user->role_id == null){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
+    public function getUserPermissions($id)
+    {
+        $permissionNames = Helper::getUserPermissions(Auth::user()->id);
+
+        //dd($permissions); exit;
+        return response()->json(['Permissions' => $permissionNames, 'message' => 'CREATED'], 200);
     }
 }

@@ -199,18 +199,8 @@ class AuthController extends Controller
         $paidExemption = Auth::user()->paid_for_exemption == 1 ? true:false;
 
         $getPicture =  Image::where('id', Auth::user()->image_id)->pluck('url')->first();
-        $permissionNames = array();
-        //TODO get user permissions and return
-//        $getPermissionIds =  RolePermission::where('userid', Auth::user()->id)->pluck('permission_id');
-//        foreach ($getPermissionIds as $getPermissionId){
-//            $permissionNames[] = Permission::where('id', $getPermissionId)->get();
-//        }
 
-        $permissionNames = DB::table('role_permission')
-            ->join('permission', 'role_permission.permission_id', '=', 'permission.id')
-            ->where('role_permission.userid', Auth::user()->id)
-            ->select('permission.name')
-            ->get();
+        $permissionNames = Helper::getUserPermissions(Auth::user()->id);
 
         return response()->json([
             'access_token' => $token,

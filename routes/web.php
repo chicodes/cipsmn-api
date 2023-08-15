@@ -156,11 +156,12 @@ $router->group(['prefix' => 'admin/roles','middleware' => 'admin'], function () 
     $router->post('', 'RolesPermissionsController@addRole');
     $router->put('/{id}', 'RolesPermissionsController@editRole');
     $router->get('', 'RolesPermissionsController@getAllRoles');
+    $router->post('assign-roles', 'RolesPermissionsController@assignUserPermissionToRole');
 });
 
 $router->group(['prefix' => 'admin/permission','middleware' => 'admin'], function () use ($router) {
     $router->post('', 'RolesPermissionsController@addPermission');
     $router->put('/{id}', 'RolesPermissionsController@editPermission');
     $router->get('', 'RolesPermissionsController@getAllPermissions');
-    $router->post('assign-roles', 'RolesPermissionsController@assignRoleToPermission');
+    $router->get('user-roles/{id}', 'RolesPermissionsController@getUserPermissions');
 });

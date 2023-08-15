@@ -2,6 +2,8 @@
 
 namespace App\Utility;
 
+use App\Models\Permission;
+use App\Models\User;
 use Illuminate\Support\Facades\File;
 
 class Helper{
@@ -46,5 +48,35 @@ class Helper{
                 return urlGenerator()->asset($path, $secured);
             }
         }
+    }
+
+    public static function getUserPermissions($id)
+    {
+        $user = self::checkUserExist($id);
+        if (!$user) {
+            return response()->json(['User' => $user, 'message' => 'User Id does not exist'], 200);
+        }
+
+        $findUserPermissions = Permission::where('role_id', $user->role_id)->get();
+
+        if($findUserPermissions == null){
+            return response()->json(['Permissions' => null, 'message' => 'no permissions for this user'], 200);
+        }
+
+        foreach ($findUserPermissions as $findUserPermission){
+            $permissions[] = $findUserPermission->name;
+        }
+
+        return $permissions;
+    }
+
+//    private static function checkUserExist($id)
+//    {
+//        return User::find($id);
+//    }
+
+    private static function checkUserExist($id)
+    {
+        return User::find($id);
     }
 }
