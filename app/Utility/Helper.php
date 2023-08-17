@@ -59,6 +59,8 @@ class Helper{
 
         $findUserPermissions = Permission::where('role_id', $user->role_id)->get();
 
+        $permissions = [];
+
         if($findUserPermissions == null){
             return response()->json(['Permissions' => null, 'message' => 'no permissions for this user'], 200);
         }

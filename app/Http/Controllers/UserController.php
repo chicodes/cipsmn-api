@@ -67,6 +67,8 @@ class UserController extends Controller
             $plainPassword = $request->input('password');
             $user->password = app('hash')->make($plainPassword);
             $user->reg_id= $request->input('reg_id');
+            //set role id to 4 which is a student role
+            $user->role_id = "4";
 
             $user->save();
 
