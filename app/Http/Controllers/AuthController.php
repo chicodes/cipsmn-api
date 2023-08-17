@@ -200,7 +200,7 @@ class AuthController extends Controller
 
         $getPicture =  Image::where('id', Auth::user()->image_id)->pluck('url')->first();
 
-        $permissionNames = Helper::getUserPermissions(Auth::user()->id);
+        $permissionNames = Helper::getUserPermissions(Auth::user()->role_id);
 
         return response()->json([
             'access_token' => $token,

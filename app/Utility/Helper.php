@@ -50,14 +50,9 @@ class Helper{
         }
     }
 
-    public static function getUserPermissions($id)
+    public static function getUserPermissions($role_id)
     {
-        $user = self::checkUserExist($id);
-        if (!$user) {
-            return response()->json(['User' => $user, 'message' => 'User Id does not exist'], 200);
-        }
-
-        $findUserPermissions = Permission::where('role_id', $user->role_id)->get();
+        $findUserPermissions = Permission::where('role_id', $role_id)->get();
 
         $permissions = [];
 
