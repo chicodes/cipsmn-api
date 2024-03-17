@@ -3,8 +3,10 @@
 namespace App\Utility;
 
 use App\Models\Permission;
+use App\Models\RolePermission;
 use App\Models\User;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 
 class Helper{
 
@@ -50,21 +52,28 @@ class Helper{
         }
     }
 
-    public static function getUserPermissions($role_id)
+    public static function getUserPermissions($id)
     {
-        $findUserPermissions = Permission::where('role_id', $role_id)->get();
+        Log::info("userid received is". $id);
+        $findUserPermissions = RolePermission::where('userid', $id)
+            ->join('permission', 'role_permission.permission_id', '=', 'permission.id')
+            ->pluck('permission.name');
 
-        $permissions = [];
+        Log::info("permissions returned is" . $findUserPermissions);
 
         if($findUserPermissions == null){
             return response()->json(['Permissions' => null, 'message' => 'no permissions for this user'], 200);
         }
 
-        foreach ($findUserPermissions as $findUserPermission){
-            $permissions[] = $findUserPermission->name;
-        }
 
-        return $permissions;
+//        $permissions = [];
+//        foreach ($findUserPermissions as $findUserPermission) {
+//            $permissions[] = $findUserPermission->name;
+//        }
+//
+//        dd($permissions); exit;
+
+        return $findUserPermissions;
     }
 
 //    private static function checkUserExist($id)

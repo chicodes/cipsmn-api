@@ -18,7 +18,7 @@ use App\Models\User;
 
 use \Laravel\Lumen\Routing\UrlGenerator;
 //use Illuminate\Support\str;
-
+use Illuminate\Support\Facades\Log;
 
 
 class AuthController extends Controller
@@ -56,10 +56,7 @@ class AuthController extends Controller
         ]);
 
         try {
-
             $uploadedFileUrl = cloudinary()->uploadFile($request->file('file')->getRealPath())->getSecurePath();
-            //dd($uploadedFileUrl);
-
             $uploadImage = new Image;
             if($request->file('file')) {
                 $image = $this->fileUpload($request);
@@ -84,18 +81,20 @@ class AuthController extends Controller
             $user->user_type = $request->input('user_type');
             $user->paid_for_regular = "0";
             $user->image_id = $uploadImage->id;
+            $user->role_id =  2;
             $plainPassword = $request->input('password');
             $user->password = app('hash')->make($plainPassword);
 
             $user->save();
+            $this->createUserPermissions($user->id);
 
             //return successful response
             return response()->json(['user' => $user, 'message' => 'CREATED'], 201);
 
         } catch (\Exception $e) {
             //return error message
-            return $e;
-            //return response()->json(['message' => 'User Registration Failed!'], 409);
+            //return $e;
+            return response()->json(['message' => 'User Registration Failed!'], 409);
         }
 
     }
@@ -200,7 +199,7 @@ class AuthController extends Controller
 
         $getPicture =  Image::where('id', Auth::user()->image_id)->pluck('url')->first();
 
-        $permissionNames = Helper::getUserPermissions(Auth::user()->role_id);
+        $permissionNames = Helper::getUserPermissions(Auth::user()->id);
 
         return response()->json([
             'access_token' => $token,
@@ -252,5 +251,23 @@ class AuthController extends Controller
 
 //
 //        str_slug('Laravel 5 Framework', '-');
+    }
+
+    /**
+     * @param User $user
+     * @return void
+     */
+    public function createUserPermissions(String $userId): void
+    {
+        $permissions = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
+        $roleId = 2;
+
+        foreach ($permissions as $permissionId) {
+            $rolePermissions = new RolePermission();
+            $rolePermissions->role_id = $roleId;
+            $rolePermissions->permission_id = $permissionId;
+            $rolePermissions->userid = $userId;
+            $rolePermissions->save();
+        }
     }
 }
