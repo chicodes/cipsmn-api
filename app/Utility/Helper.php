@@ -65,21 +65,8 @@ class Helper{
             return response()->json(['Permissions' => null, 'message' => 'no permissions for this user'], 200);
         }
 
-
-//        $permissions = [];
-//        foreach ($findUserPermissions as $findUserPermission) {
-//            $permissions[] = $findUserPermission->name;
-//        }
-//
-//        dd($permissions); exit;
-
         return $findUserPermissions;
     }
-
-//    private static function checkUserExist($id)
-//    {
-//        return User::find($id);
-//    }
 
     private static function checkUserExist($id)
     {
