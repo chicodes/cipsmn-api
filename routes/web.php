@@ -36,6 +36,8 @@ $router->group(['prefix' => 'user'], function () use ($router) {
     $router->put('/change-password', 'UserController@changePassword');
     $router->post('/edit-profile', 'UserController@editProfileMember');
     $router->get('/get-my-profile', 'UserController@getMyUserProfile');
+
+    $router->post('/fix-user-permissions', 'UserController@assignPermissionsOldUsers');
 });
 
 $router->post('logout', 'AuthController@logout');

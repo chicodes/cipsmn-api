@@ -72,4 +72,18 @@ class Helper{
     {
         return User::find($id);
     }
+
+    public static function createUserPermissions(String $userId): void
+    {
+        $permissions = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
+        $roleId = 2;
+
+        foreach ($permissions as $permissionId) {
+            $rolePermissions = new RolePermission();
+            $rolePermissions->role_id = $roleId;
+            $rolePermissions->permission_id = $permissionId;
+            $rolePermissions->userid = $userId;
+            $rolePermissions->save();
+        }
+    }
 }

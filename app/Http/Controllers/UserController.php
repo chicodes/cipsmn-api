@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\BadgeUploaded;
 use App\Models\Image;
+use App\Models\RolePermission;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
@@ -300,5 +301,24 @@ class UserController extends Controller
         return $getUser;
 
         //return response()->json(['user' => $getUser, 'message' => 'SUCCESFULL'], 200);
+    }
+
+    public function assignPermissionsOldUsers(Request $request)
+    {
+        try {
+
+            $userRange =  User::whereBetween('id', [$request->start, $request->end])->get();
+
+            Log::info("user range result:  $userRange");
+
+            foreach ($userRange as $user) {
+                LOG::info("userid passed is $user->id");
+                Helper::createUserPermissions($user->id);
+            }
+
+            return response()->json(['User' => $userRange, 'message' => 'UPDATED'], 200);
+        } catch (\Exception $e) {
+            return $e;
+        }
     }
 }

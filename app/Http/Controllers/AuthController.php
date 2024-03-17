@@ -86,7 +86,7 @@ class AuthController extends Controller
             $user->password = app('hash')->make($plainPassword);
 
             $user->save();
-            $this->createUserPermissions($user->id);
+            Helper::createUserPermissions($user->id);
 
             //return successful response
             return response()->json(['user' => $user, 'message' => 'CREATED'], 201);
@@ -251,23 +251,5 @@ class AuthController extends Controller
 
 //
 //        str_slug('Laravel 5 Framework', '-');
-    }
-
-    /**
-     * @param User $user
-     * @return void
-     */
-    public function createUserPermissions(String $userId): void
-    {
-        $permissions = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
-        $roleId = 2;
-
-        foreach ($permissions as $permissionId) {
-            $rolePermissions = new RolePermission();
-            $rolePermissions->role_id = $roleId;
-            $rolePermissions->permission_id = $permissionId;
-            $rolePermissions->userid = $userId;
-            $rolePermissions->save();
-        }
     }
 }
